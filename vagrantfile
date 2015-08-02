@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Specify minimum Vagrant version and Vagrant API version
+Vagrant.require_version ">= 1.7.2"
+VAGRANTFILE_API_VERSION = "2"
+
+require 'yaml'
+nodes = YAML.load_file("./yaml/vagrant.yaml")
+# ref: http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/
+
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+  nodes.each do |node|
+    config.vm.define node["name"] do |node_config|
+      node_config.vm.box = node["box"]
+      node_config.vm.host_name = node["name"]
+      # node_config.vm.network "public_network", bridge: 'en0: Wi-Fi (AirPort)'
+      memory = node["ram"] ? node["ram"] : 1024;
+      node_config.vm.provider :virtualbox do |vb|
+        vb.gui = true
+        vb.customize ['modifyvm', :id, '--name', node["name"], '--memory', memory.to_s ]
+      end
+      node_config.vm.network :private_network , ip: node["ip"] # type: "dhcp" - doesn't appear to work
+      node_config.vm.synced_folder './', '/tmp/vagrant' # always mount shared folder in /tmp
+
+      node['forwards'].each do |port|
+        node_config.vm.network "forwarded_port", guest: port['guest'], host: port['host']
+      end
+
+      node_config.vm.provision :shell, path: node["init"], privileged: true #todo: defect - not working for centos
+      node_config.vm.post_up_message = "Post Complete message - Yeah!"
+    end
+  end
+
+  # # Run Puppet Manifests
+  # config.vm.provision :puppet do |puppet|
+  #   puppet.manifests_path = 'puppet/manifests'
+  #   puppet.module_path    = 'puppet/modules'
+  #   puppet.manifest_file  = 'ossim_build_install.pp'
+  # end
+end
+
+

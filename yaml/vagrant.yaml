@@ -1,0 +1,68 @@
+# vagrant.yaml
+# ref: http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/
+# ref: http://stackoverflow.com/questions/27319688/vagrant-not-setting-ip-address-on-vmware-fusion-multibox-multiprovider-vagrantf
+---
+  - name: agent1
+    ip:         "090.090.090.10"
+    box:        "ubuntu/trusty64"
+    forwards:
+      - saf:
+        host:   8082
+        guest:  8081
+      - asdfa:
+        host:   2323
+        guest:  23
+    init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:    2046
+    provisions:
+      - provision: "shell"
+        path: "./this.dir.sh"
+        priviledged: "true"
+      - provision: "puppet"
+        manifest: "./this.dir.pp"
+
+  - name: agent2
+    ip:         "090.090.090.10"
+    box:        "ubuntu/trusty64"
+    forwards:
+      -
+        host:   8082
+        guest:  8081
+      -
+        host:   2323
+        guest:  23
+    init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:    2046
+    provisions:
+      - provision: "shell"
+        path: "./this.dir.sh"
+        priviledged: "true"
+      - provision: "puppet"
+        manifest: "./this.dir.pp"
+
+#- name: agent1
+#  ip:     090.090.090.10
+#  box:    ubuntu/trusty64
+#  fport:
+#    8082
+#  init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+#  ram:    "2046"
+#- name: agent2
+#  ip:     090.090.090.20
+#  box:    ubuntu/trusty64
+#  fport:  8082
+#  init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+#  ram:    "2046"
+#- name: agent2
+#  ip:     090.090.090.30
+#  box:    ubuntu/trusty64
+#  fport:  8082
+#  init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+#  ram:    "2046"
+#- name: graphite
+#  ip:     090.090.090.40
+#  box:    ubuntu/trusty64
+#  fport:  8082
+#  init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+#  ram:    "2046"
+
