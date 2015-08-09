@@ -19,21 +19,14 @@ include stdlib
 
 
 file { "/home/vagrant/venv/":
-    ensure => absent,
-    force  => true
+#    ensure => absent,
+    force  => true,
+    ensure => "directory",
 #    notify => File['setup venv'],
-  }
-
-file { "/home/vagrant/venv/":
-  ensure => "directory",
 }
+
 
 file { "/home/vagrant/venv/python3/":
-ensure => absent,
-force  => true
-}
-
-file { "/home/vagrant/venv/python2.6/":
 ensure => absent,
 force  => true
 }
@@ -53,8 +46,3 @@ python::virtualenv { '/home/vagrant/venv' :
   timeout      => 0
 }
 
-
-file { "/home/vagrant/venv/python2.6/":
-  ensure => absent,
-  force  => true
-}
