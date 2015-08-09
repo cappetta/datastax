@@ -16,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
   nodes.each do |node|
     config.vm.define node["name"] do |node_config|
-      # node_config.ssh.private_key_path = "/"
+      # node_config.ssh.private_key_path = "id_rsa"  # todo: RESEARCH::what happens if you don't do this during build time?
       node_config.vm.box = node["box"]
       node_config.vm.host_name = node["name"]
       # node_config.vm.network "public_network", bridge: 'en0: Wi-Fi (AirPort)'
@@ -43,11 +43,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       node_config.vm.provision :shell, path: node["init"], privileged: true #todo: defect - not working for centos
 
-      # Run Puppet Manifests #todo: multiple iterations logic
+      # Run Puppet Manifests
       node_config.vm.provision :puppet do |puppet|
         puppet.manifests_path   = 'puppet/manifests'
         puppet.module_path      = 'puppet/modules'
-        puppet.manifest_file    = 'default.pp'
+        # puppet.manifest_file    = 'default.pp'    #todo: multiple iterations logic as well active/inactive flag
+        puppet.manifest_file    = 'init.test.env.pp'
       end
       node_config.vm.post_up_message = "Post Complete message - Yeah!"
     end

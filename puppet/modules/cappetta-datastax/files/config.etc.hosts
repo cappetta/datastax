@@ -7,9 +7,11 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 
-10.211.55.100   node0
-10.211.55.101   node1
-10.211.55.102   node2
-10.211.55.103   node3
-10.211.55.104   node4
-10.211.55.105   graphite
+# todo: review etc.hosts.erb template for dynamic creation
+# 
+192.168.0.100   graphite
+192.168.0.10    agent1
+192.168.0.20    agent2
+192.168.0.30    agent3
+192.168.0.40    agent4
+192.168.0.50    graphite

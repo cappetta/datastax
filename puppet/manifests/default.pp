@@ -33,7 +33,7 @@ force  => true
 
 
 # todo: setup mutliple python environments w/ different requirements & versions
-python::virtualenv { '/home/vagrant/venv' :
+python::virtualenv { '/home/vagrant/venv.python2.7' :
   ensure       => present,
   version      => 'system',
   requirements => '/vagrant/requirements.txt',
@@ -46,3 +46,7 @@ python::virtualenv { '/home/vagrant/venv' :
   timeout      => 0
 }
 
+# syncronize ssh keys to allow opscenter to control the install of cassandra
+# create a playbook that deploys the different config files (jmxtrans & graphite)
+  # yaml of files needed for parameteriztion
+# launch the stress test: start recorder, start test, stop recorder, output results.

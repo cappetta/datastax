@@ -12,6 +12,7 @@ puppet module install puppetlabs-apt
 puppet module install puppetlabs-motd
 puppet module install puppetlabs-stdlib
 puppet module install stankevich-python
+puppet module install puppetlabs-java
 
 sudo apt-get install -y build-essential
 

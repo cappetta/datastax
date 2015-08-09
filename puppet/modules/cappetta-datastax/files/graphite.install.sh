@@ -5,7 +5,7 @@
 
 
 #SYNTHESIZE_HOME=$( cd "$( dirname "$0" )" && pwd )
-SYNTHESIZE_HOME=$( cd .. && pwd) #todo: release note customization
+SYNTHESIZE_HOME=$( cd /vagrant/puppet/modules/cappetta-datastax/ && pwd) #todo: release note customization &/or YAML parameterization
 UBUNTU_RELEASE=`lsb_release -a 2>/dev/null | grep '^Descrip' | cut -s -f 2`
 
 GRAPHITE_HOME='/opt/graphite'
@@ -51,6 +51,8 @@ cp ${SYNTHESIZE_HOME}/templates/statsite/statsite.conf /etc/statsite.conf
 mkdir ${GRAPHITE_CONF}/examples
 mv ${GRAPHITE_CONF}/*.example ${GRAPHITE_CONF}/examples/
 cp ${SYNTHESIZE_HOME}/templates/graphite/conf/* ${GRAPHITE_CONF}/
+#todo: why did this dir have to be created?
+mkdir -p /etc/collectd
 cp ${SYNTHESIZE_HOME}/templates/collectd/collectd.conf /etc/collectd/
 cp ${SYNTHESIZE_HOME}/templates/apache/graphite.conf /etc/apache2/sites-available/
 cp ${SYNTHESIZE_HOME}/templates/init/* /etc/init/

@@ -2,7 +2,7 @@
 # @author: cappetta
 ---
   - name: graphite
-    ip:         "90.90.90.100" #todo: ipv6
+    ip:         "192.168.0.100" #todo: ipv6
     box:        "ubuntu/trusty64"
     init:       "./puppet/modules/cappetta-datastax/files/graphite.install.sh"
     ram:        2046
@@ -36,7 +36,7 @@
         virtual: "/home/vagrant/shared_foundation"
 
   - name: agent1
-    ip:         "090.090.090.10"
+    ip:         "192.168.0.10"
     box:        "ubuntu/trusty64"
     init:       "./puppet/ubuntu_puppet_install_bootstrap.sh"
     ram:        2048
@@ -59,7 +59,7 @@
         virtual: "/home/vagrant/shared_foundation"
 
   - name: agent2
-    ip:                 "090.090.090.20"
+    ip:                 "192.168.0.20"
     box:                "ubuntu/trusty64"
     init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
     ram:                2048
@@ -79,7 +79,7 @@
         virtual:        "/home/vagrant/shared_foundation"
 
   - name: agent3
-    ip:                 "090.090.090.30"
+    ip:                 "192.168.0.30"
     box:                "ubuntu/trusty64"
     init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
     ram:                2048
@@ -100,7 +100,7 @@
 
 
   - name: opscenter
-    ip:         "090.090.090.50"
+    ip:         "192.168.0.50"
     box:        "hashicorp/precise64"
     forwards: # auto-correct is enabled by default
       -
