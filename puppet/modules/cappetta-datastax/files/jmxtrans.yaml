@@ -1,0 +1,101 @@
+# Host/Port Grahpite listens on
+graphite_host: "graphite"
+graphite_port: 2003
+
+# Global port to query JMX on
+# query_port and global_host_alias are mandatory
+# Will accept a blank space if alias and host is provided in host sets
+query_port: 7199
+global_host_alias:
+
+# Query definitions, every query needs obj, resultAlias, attr
+#   from jmxtrans format, "name" must be given for referencing
+#   the query in host sets
+queries:
+    - name: mempool
+      obj: "java.lang:type=MemoryPool,name=*"
+      resultAlias: "memorypool"
+      attr:
+        - "Usage"
+
+    - name: gc
+      obj: "java.lang:type=GarbageCollector,name=*"
+      resultAlias: "gc"
+      attr:
+        - "CollectionCount"
+        - "CollectionTime"
+
+    - name: hibernate
+      obj: "Hibernate:type=statistics,name=*"
+      resultAlias: "hibernate"
+      attr:
+        - "QueryExecutionMaxTime"
+        - "Queries"
+        - "TransactionCount"
+
+    - name: OperatingSystem
+      obj: "java.lang:type=OperatingSystem"
+      resultAlias: "sys"
+      attr:
+        - "AvailableProcessors"
+        - "CommittedVirtualMemorySize"
+        - "FreePhysicalMemorySize"
+        - "FreeSwapSpaceSize"
+        - "MaxFileDescriptorCount"
+        - "OpenFileDescriptorCount"
+        - "ProcessCpuLoad"
+        - "ProcessCpuTime"
+        - "SystemCpuTime"
+        - "SystemLoadAverage"
+        - "TotalSwapSpaceSize"
+        - "TotalPhysicalMemorySize"
+
+    - name: threads
+      obj : "java.lang:type=Threading"
+      resultAlias: "threads"
+      attr:
+        - "CurrentThreadCpuTime"
+        - "DaemonThreadCount"
+        - "PeakThreadCount"
+        - "ThreadCount"
+        - "TotalStartedThreadCount"
+
+    - name: SSTable
+      obj: "org.apache.cassandra.metrics:type=ColumnFamily,name=LiveSSTableCount"
+      resultAlias: "LiveSSTableCount"
+      attr:
+        - "Value"
+
+    - name: memtable
+      obj: "org.apache.cassandra.metrics:type=ColumnFamily,name=AllMemtablesLiveDataSize"
+      resultAlias: "AllMemTablesLiveDataSize"
+      attr:
+        - "Value"
+
+    - name: writelatency
+      obj: "org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency"
+      resultAlias: "Write.Latency.95th"
+      attr:
+        - "95thPercentile"
+
+# Define named sets of hosts that get the same queries
+# query_names and hosts is a list
+# Mention like machine01.yourdomain.com:5400;mac1
+# if query_port and global_host_alias are not specified
+sets:
+  - setname: Cassandra_JMX
+    query_names:
+            - mempool
+            - gc
+            - hibernate
+            - OperatingSystem
+            - threads
+            - SSTable
+            - memtable
+            - writelatency
+    hosts:
+            - 10.211.55.101
+            - 10.211.55.102
+            - 10.211.55.103
+            - node3
+

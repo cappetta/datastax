@@ -16,25 +16,34 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
   nodes.each do |node|
     config.vm.define node["name"] do |node_config|
+      # node_config.ssh.private_key_path = "/"
       node_config.vm.box = node["box"]
       node_config.vm.host_name = node["name"]
       # node_config.vm.network "public_network", bridge: 'en0: Wi-Fi (AirPort)'
       memory = node["ram"] ? node["ram"] : 1024;
+
       node_config.vm.provider :virtualbox do |vb|
         vb.gui = true
         vb.customize ['modifyvm', :id, '--name', node["name"], '--memory', memory.to_s ]
       end
+
       node_config.vm.network :private_network , ip: node["ip"] # type: "dhcp" - doesn't appear to work
       node_config.vm.synced_folder './', '/tmp/vagrant' # always mount shared folder in /tmp
 
+      # Recursive logic for multiple port forwarding
       node['forwards'].each do |port|
-        node_config.vm.network "forwarded_port", guest: port['guest'], host: port['host']
+        node_config.vm.network "forwarded_port", guest: port['guest'], host: port['host'], autocorrect: true
+      end
+      # Recursive logic for multiple shared folders
+
+      #
+      node['folders'].each do |folder|
+        node_config.vm.synced_folder folder['local'], folder['virtual']
       end
 
       node_config.vm.provision :shell, path: node["init"], privileged: true #todo: defect - not working for centos
       node_config.vm.post_up_message = "Post Complete message - Yeah!"
     end
-  end
 
   # # Run Puppet Manifests
   # config.vm.provision :puppet do |puppet|
@@ -42,6 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   puppet.module_path    = 'puppet/modules'
   #   puppet.manifest_file  = 'ossim_build_install.pp'
   # end
+  end
 end
 
 

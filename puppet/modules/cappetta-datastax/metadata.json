@@ -1,0 +1,14 @@
+{
+  "name": "cappetta-datastax",
+  "version": "0.1.0",
+  "author": "cappetta",
+  "summary": "a puppet module to simplify installation of cassandra & the datastax community add-ons.",
+  "license": "Apache 2.0",
+  "source": "https://github.com/cappetta",
+  "project_page": "https://github.com/cappetta",
+  "issues_url": "https://github.com/cappetta/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+

@@ -1,0 +1,18 @@
+graphite:
+  -
+    period: 60
+    timeunit: 'SECONDS'
+    hosts:
+     - host: 'graphite'
+       port: 2003
+    predicate:
+      color: "white"
+      useQualifiedName: true
+      patterns:
+        - "^org.apache.cassandra.metrics.Cache.+"
+        - "^org.apache.cassandra.metrics.ClientRequest.+"
+        - "^org.apache.cassandra.metrics.Storage.+"
+        - "^org.apache.cassandra.metrics.ThreadPools.+"
+        - "^org.apache.cassandra.metrics.ColumnFamily.keyspace.+"
+        - "^o.a.c.m.ColumnFamily.keyspace.columnfamily.AllMemTablesDataSize.+"
+        - "^o.a.c.m.ClientRequest.Write.Latency.+"
