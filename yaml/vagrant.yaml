@@ -45,89 +45,18 @@
         host:   7199
         guest:  7199
     provisions:
-      - provision:    "shell"
+      - shell:
         path:         "./this.dir.sh"
         priviledged:  "true"
-      - provision:    "puppet"
-        manifest:     "./this.dir.pp"
+      - puppet:
+        manifest:     "./puppet/manifest/default.pp"
+# todo: multiple manifests
+#        - Sanity_Validation:
+#          manifest:     "./puppet/manifest/sanity.pp"
     folders:
       - first_folder_to_share:
         local:   "/Users/cappetta/DropBox/github/"
         virtual: "/home/vagrant/shared_foundation"
-
-  - name: agent2
-    ip:         "090.090.090.20"
-    box:        "ubuntu/trusty64"
-    forwards:
-      -
-        host:   7200
-        guest:  7199
-    init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
-    ram:    2048
-    provisions:
-      - provision: "shell"
-        path: "./this.dir.sh"
-        priviledged: "true"
-      - provision: "puppet"
-        manifest: "./this.dir.pp"
-    folders:
-          - folder1:
-            local:   "/Users/cappetta/DropBox/github/"
-            virtual: "/home/vagrant/shared_foundation"
-
-  - name: agent3
-    ip:         "090.090.090.30"
-    box:        "ubuntu/trusty64"
-    forwards: # autocorrect is enabled by default
-      -
-        host:   7201
-        guest:  7199
-
-    init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
-    ram:    2048
-    provisions:
-      - provision: "shell"
-        path: "./this.dir.sh"
-        priviledged: "true"
-      - provision: "puppet"
-        manifest: "./this.dir.pp"
-    folders:
-          - folder1:
-            local:   "/Users/cappetta/DropBox/github/"
-            virtual: "/home/vagrant/shared_foundation"
-#  - name: agent4
-#    ip:         "090.090.090.40"
-#    box:        "ubuntu/trusty64"
-#    forwards: # autocorrect is enabled by default
-#      -
-#        host:   7202
-#        guest:  7199
-#
-#    init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
-#    ram:    2048
-#    provisions:
-#      - provision: "shell"
-#        path: "./this.dir.sh"
-#        priviledged: "true"
-#      - provision: "puppet"
-#        manifest: "./this.dir.pp"
-#
-#  - name: agent4
-#    ip:         "090.090.090.40"
-#    box:        "ubuntu/trusty64"
-#    forwards: # autocorrect is enabled by default
-#      -
-#        host:   7203
-#        guest:  7199
-#
-#    init:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
-#    ram:    2048
-#    provisions:
-#      - provision: "shell"
-#        path: "./this.dir.sh"
-#        priviledged: "true"
-#      - provision: "puppet"
-#        manifest: "./this.dir.pp"
 
   - name: opscenter
     ip:         "090.090.090.50"

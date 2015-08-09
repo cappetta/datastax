@@ -30,28 +30,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.network :private_network , ip: node["ip"] # type: "dhcp" - doesn't appear to work
       node_config.vm.synced_folder './', '/tmp/vagrant' # always mount shared folder in /tmp
 
+
       # Recursive logic for multiple port forwarding
       node['forwards'].each do |port|
         node_config.vm.network "forwarded_port", guest: port['guest'], host: port['host'], autocorrect: true
       end
-      # Recursive logic for multiple shared folders
 
-      #
+      # Recursive logic for multiple shared folders
       node['folders'].each do |folder|
         node_config.vm.synced_folder folder['local'], folder['virtual']
       end
 
       node_config.vm.provision :shell, path: node["init"], privileged: true #todo: defect - not working for centos
+
+      # Run Puppet Manifests #todo: multiple iterations logic
+      node_config.vm.provision :puppet do |puppet|
+        puppet.manifests_path   = 'puppet/manifests'
+        puppet.module_path      = 'puppet/modules'
+        puppet.manifest_file    = 'default.pp'
+      end
       node_config.vm.post_up_message = "Post Complete message - Yeah!"
     end
 
-  # # Run Puppet Manifests
-  # config.vm.provision :puppet do |puppet|
-  #   puppet.manifests_path = 'puppet/manifests'
-  #   puppet.module_path    = 'puppet/modules'
-  #   puppet.manifest_file  = 'ossim_build_install.pp'
-  # end
   end
 end
 
-
+#
