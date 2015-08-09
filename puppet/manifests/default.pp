@@ -39,6 +39,7 @@ force  => true
 }
 
 
+# todo: setup mutliple python environments w/ different requirements & versions
 python::virtualenv { '/home/vagrant/venv' :
   ensure       => present,
   version      => 'system',
@@ -52,16 +53,8 @@ python::virtualenv { '/home/vagrant/venv' :
   timeout      => 0
 }
 
-#
-#python::virtualenv { '/home/vagrant/venv2' :
-#  ensure       => present,
-#  version      => '3',
-#  requirements => '/vagrant/requirements.txt',
-#  systempkgs   => true,
-#  distribute   => false,
-#  venv_dir     => '/home/vagrant/venv/python3',
-#  owner        => 'vagrant',
-#  group        => 'vagrant',
-#  cwd          => '/home/vagrant/venv/python3',
-#  timeout      => 0,
-#}
+
+file { "/home/vagrant/venv/python2.6/":
+  ensure => absent,
+  force  => true
+}
