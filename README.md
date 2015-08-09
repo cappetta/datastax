@@ -25,6 +25,9 @@ Enter the following information:
 ## useful commands:
 sudo puppet apply --modulepath=./modules/ ./manifests/default.pp
 
+vagrant ssh opscenter -c 'ps -eaf | grep -i opscenter'
+
+
 
 ### github pages
 
