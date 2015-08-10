@@ -1,4 +1,5 @@
 include stdlib
+include cappetta-datastax::graphite
 
 #file{'/home/vagrant/.ssh/authorized_keys':
 #  ensure => exists
@@ -36,13 +37,6 @@ exec { 'updating etc.hosts':
   command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/config.etc.hosts /etc/hosts'
 }
 
-# todo: RESEARCH:: is an
-#file {
-#  '/etc/hosts':
-#    ensure  => 'file',
-#    source  => 'config.etc.hosts',
-#    path    => '/vagrant/puppet/modules/cappetta-datastax/files/',
-#    owner   => 'root',
-#    group   => 'root',
-#    mode    => '0644', # Use 0700 if it is sensitive
-#}
+exec { 'adding shared private key to vagrant user':
+  command => 'cat /vagrant/puppet/modules/cappetta-datastax/files/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys'
+}

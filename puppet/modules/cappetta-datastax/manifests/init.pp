@@ -35,20 +35,9 @@
 #
 # Copyright 2015 Your name here, unless otherwise noted.
 #
-class datastax (
+class datastax (){
 
-  file {
-    '/etc/hosts':
-      ensure  => 'file',
-      source  => 'puppet:///modules/cappetta-datastax/config.etc.hosts',
-      path    => '/etc/hosts',
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0744', # Use 0700 if it is sensitive
-      notify  => Exec['Install OpsCenter'],
-  }
-
-)
+}
 # ## block moves up into datastax class - inherit is the added immediately after the closing brackets
 # inherit the values from the params class # todo: confirm there is a better way to inherit configuration values e.g. YAML?
 #  $autoupdate = $datastax::params::autoupdate

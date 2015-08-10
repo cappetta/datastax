@@ -4,7 +4,7 @@ node 'opscenter'{
 }
 
 # match any datastax nodes "node#" naming convention
-node /^node\d+$/ {
+node /^agent\d+$/ {
 #  include profiles::cassandra
   include datastax::casspandra
 }

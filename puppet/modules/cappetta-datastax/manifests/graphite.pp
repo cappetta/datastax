@@ -1,55 +1,26 @@
-class datastax::graphite  {
+class cappetta-datastax::graphite  {
 
   Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
-  $packages = ['vim','curl', 'zip','unzip','git','python-pip','openjdk-7-jdk' ]
+  $packages = ['vim','curl', 'zip','unzip','git','python-pip' ]
   package{ $packages: ensure => "latest"  }
 
-  file {
-    'my_bash_script':
-      ensure => 'file',
-      source => 'puppet:///modules/cappetta-datastax/graphite.install.sh',
-      path => '/tmp/graphite.install.sh',
-      owner => 'root',
-      group => 'root',
-      mode  => '0744', # Use 0700 if it is sensitive
-      notify => Exec['Install Graphite'],
+  exec {
+    "Download JMXTrans ":
+      command => 'wget -O /tmp/jmxtrans.deb https://github.com/downloads/jmxtrans/jmxtrans/jmxtrans_20121016-175251-ab6cfd36e3-1_all.deb',
+      notify  => Exec['Deploy JMXTrans Config']
   }
+
 
   exec {
-    'Install Graphite':
-      command => '/tmp/graphite.install.sh',
-      refreshonly => true,
+    "Deploy JMXTrans Config":
+      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/config.etc.default.jmxtrans /etc/default/jmxtrans',
+      notify  => Package['Install JMXTrans']
   }
 
-  file {
-    'etc_hosts':
-      ensure => 'file',
-      source => 'puppet:///modules/cappetta-datastax/config.etc.hosts',
-      path => '/etc/hosts',
-      owner => 'root',
-      group => 'root',
-      mode  => '0744',
+  package { "Install JMXTrans":
+    provider => dpkg,
+    ensure   => latest,
+    source   => "/tmp/jmxtrans.deb"
   }
-}
-
-
-#############################################
-## @author: cappetta
-## @purpose: setup the /etc/hosts file for the cluster
-#############################################
-class cluster {
-# hiera lookup IP set to variable to share w/ template
-  $cluser_ip_prefix = "%{{C_Class_Addr}}"
-
-  file { '/tmp/hosts':
-    content => template('cluster/etc.hosts.erb'),
-    owner   => root,
-    group   => root,
-    mode    => 644,
-  }
-
-
-
-
 }
