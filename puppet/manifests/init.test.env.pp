@@ -1,5 +1,6 @@
 include stdlib
 include cappetta-datastax::graphite
+#include cappetta-datastax::cassandra
 
 #file{'/home/vagrant/.ssh/authorized_keys':
 #  ensure => exists
