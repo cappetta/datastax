@@ -21,6 +21,6 @@ class cappetta-datastax::graphite  {
   package { "Install JMXTrans":
     provider => dpkg,
     ensure   => latest,
-    source   => "/tmp/jmxtrans.deb"
+    source   => "/tmp/jmxtrans.deb",
   }
 }

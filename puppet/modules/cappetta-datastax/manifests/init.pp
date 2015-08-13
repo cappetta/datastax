@@ -35,7 +35,7 @@
 #
 # Copyright 2015 Your name here, unless otherwise noted.
 #
-class datastax (){
+class cappetta-datastax (){
 
 }
 # ## block moves up into datastax class - inherit is the added immediately after the closing brackets

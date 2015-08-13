@@ -36,7 +36,7 @@
         virtual: "/home/vagrant/shared_foundation"
 
   - name: agent1
-    ip:         "192.168.0.10"
+    ip:         "192.168.0.11"
     box:        "ubuntu/trusty64"
     init:       "./puppet/ubuntu_puppet_install_bootstrap.sh"
     ram:        2048
@@ -59,7 +59,7 @@
         virtual: "/home/vagrant/shared_foundation"
 
   - name: agent2
-    ip:                 "192.168.0.20"
+    ip:                 "192.168.0.12"
     box:                "ubuntu/trusty64"
     init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
     ram:                2048
@@ -79,7 +79,7 @@
         virtual:        "/home/vagrant/shared_foundation"
 
   - name: agent3
-    ip:                 "192.168.0.30"
+    ip:                 "192.168.0.13"
     box:                "ubuntu/trusty64"
     init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
     ram:                2048

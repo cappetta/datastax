@@ -4,13 +4,31 @@ This project creates and Stress-tests a multi-node cassandra environment w/ a Gr
 
 This project has a published page under GitHub which is still under draft: http://cappetta.github.io/datastax.
 
+## Order of Execution:
+1) ./up
+
+
+
+
+
+
 
 ## To use:
 First, Execute the following commands
 
     1. Launch the Script to bring the nodes up and then perform parallel provisioning
         a) ./up-provision.sh
-    2. vagrant provision --provision-with puppet agent1
+    2. Log into OpsCenter Web UI @ http://localhost:8888
+        2a. Register Cassandra Clients:
+            - Default user/pass: vagrant/vagrant
+            - Enter IPs of Clients:
+                192.168.0.10
+                192.168.0.11
+                192.168.0.12
+                192.168.0.13
+            -
+
+    3. Log into Graphite Web UI @ https://localhost:8443
 
 Then confirm the Graphite Server is up & accept the trust exception. @ http://localhost:8443
     if url is not working perform: vagrant reload graphite

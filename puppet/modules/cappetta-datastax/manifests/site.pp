@@ -1,14 +1,20 @@
 node 'opscenter'{
 #  include profiles::datastax
-  include datastax::opscenter
+  include cappetta-datastax::opscenter
 }
 
 # match any datastax nodes "node#" naming convention
 node /^agent\d+$/ {
 #  include profiles::cassandra
-  include datastax::casspandra
+  include cappetta-datastax::cassandra
 }
 
-node default {
+node graphite {
 #  include profiles::base
+  include cappetta-datastax::graphite
+}
+
+
+node default {
+
 }
