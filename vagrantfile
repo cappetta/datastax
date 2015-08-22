@@ -47,9 +47,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.provision :puppet do |puppet|
         puppet.manifests_path   = 'puppet/manifests'
         puppet.module_path      = 'puppet/modules'
-        puppet.manifest_file    = 'default.pp'    #todo: multiple iterations logic as well active/inactive flag
+        # puppet.manifest_file    = 'default.pp'    #todo: multiple iterations logic as well active/inactive flag
         # puppet.manifest_file    = 'init.test.env.pp'
-        # puppet.manifest_file    = 'graphite.pp'
+        puppet.manifest_file    = 'site.pp'
       end
       node_config.vm.post_up_message = "Post Complete message - Yeah!"
     end
