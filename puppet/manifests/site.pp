@@ -13,7 +13,7 @@ node /^agent\d+$/ {
 
 node graphite {
 #  include profiles::base
-  include cappetta-datastax::graphite
+#  include cappetta-datastax::graphite
   include cappetta-datastax::profile_jmxtrans
 }
 
