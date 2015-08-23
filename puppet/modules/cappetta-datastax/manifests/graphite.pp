@@ -5,8 +5,13 @@ class cappetta-datastax::graphite  {
   $packages = ['vim','curl', 'zip','unzip','git','python-pip' ]
   package{ $packages: ensure => "latest"  }
 
+  class { 'java':
+    distribution  => 'jdk',
+    notify        => Exec['Download JMXTrans']
+  }
+
   exec {
-    "Download JMXTrans ":
+    "Download JMXTrans":
       command => 'wget -O /tmp/jmxtrans.deb https://github.com/downloads/jmxtrans/jmxtrans/jmxtrans_20121016-175251-ab6cfd36e3-1_all.deb',
       notify  => Exec['Deploy JMXTrans Config']
   }

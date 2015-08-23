@@ -1,11 +1,14 @@
 
 # Datastax OpsCenter Role
-class datastax::base_profile {
+class cappetta-datastax::base_profile {
   Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
-  $packages = ['vim','curl', 'zip','unzip','git','python-pip','openjdk-7-jdk' ]
-  package{ $packages: ensure => "latest"  }
+  $packages = ['vim','curl', 'zip','unzip','git','python-pip', ]
 
+  exec { 'fix missing packages':
+    command => 'sudo /usr/bin/apt-get update --fix-missing',
+    } -> # and then....
+      package{ $packages: ensure => "latest"}
 
   file {
     '/etc/hosts':
@@ -15,22 +18,14 @@ class datastax::base_profile {
       owner   => 'root',
       group   => 'root',
       mode    => '0744', # Use 0700 if it is sensitive
-      notify  => Exec['Install OpsCenter'],
+      notify  => Exec['Install JQ'],
   }
 
-
   exec {
-    "Install JQ ":
+    "Install JQ":
       command => 'wget -O /usr/bin/jq http://stedolan.github.io/jq/download/linux64/jq',
       refreshonly => true
   }
-
-  exec {
-    "Install JMXTrans ":
-      command => 'wget -O /tmp/jmxtrans.deb https://github.com/downloads/jmxtrans/jmxtrans/jmxtrans_20121016-175251-ab6cfd36e3-1_all.deb',
-      refreshonly => true
-  }
-
 
 }
 

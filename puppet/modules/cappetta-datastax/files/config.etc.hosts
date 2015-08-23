@@ -10,8 +10,8 @@ ff02::2 ip6-allrouters
 # todo: review etc.hosts.erb template for dynamic creation
 # 
 192.168.0.100   graphite
-192.168.0.10    agent1
-192.168.0.20    agent2
-192.168.0.30    agent3
-192.168.0.40    agent4
-192.168.0.50    graphite
+192.168.0.11    agent1
+192.168.0.12    agent2
+192.168.0.13    agent3
+192.168.0.14    agent4
+192.168.0.50    opscenter

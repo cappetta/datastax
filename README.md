@@ -1,14 +1,30 @@
 # Overview
 
-This project creates and Stress-tests a multi-node cassandra environment w/ a Graphite Reporting Dashboard.
+This project aims to automate the creation and Stress-test of a multi-node cassandra environment
+w/ an empty Graphite Dashboard which monitors the java virtual machine and collects specific performance metrics
+from the individual cassandra cluster nodes of a highly available big data platform.
 
-This project has a published page under GitHub which is still under draft: http://cappetta.github.io/datastax.
+It leverages YAML to maximize compatibality w/ configurations and test scripts.
 
-## Order of Execution:
-1) ./up
-
+This project has a published page under GitHub @ http://cappetta.github.io/datastax
 
 
+
+
+Supported Platforms
+-------------------
+
+The module has been tested on the following operating systems. Testing and patches for other platforms are welcome.
+
+* Debian Linux 7.0 (Wheezy)
+
+
+Support
+-------
+
+Please create bug reports and feature requests in [GitHub issues] [2].
+
+[2]: https://github.com/cappetta/cassandra/issues
 
 
 
@@ -41,9 +57,9 @@ Enter the following information:
 
 
 ## useful commands:
-sudo puppet apply --modulepath=./modules/ ./manifests/default.pp
+1) sudo puppet apply --modulepath=./modules/ ./manifests/default.pp
+2) vagrant ssh opscenter -c 'ps -eaf | grep -i opscenter'
 
-vagrant ssh opscenter -c 'ps -eaf | grep -i opscenter'
 
 
 
@@ -69,3 +85,7 @@ reference authors to be published w/ v1.0
 
 ### Support or Contact
 Having trouble with Pages? Check out our [documentation](https://help.github.com/pages) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
+
+##### Release notes:
+v2.0 - create local repo proxy to speed up deployment
