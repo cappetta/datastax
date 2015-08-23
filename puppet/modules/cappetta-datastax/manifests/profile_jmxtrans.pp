@@ -1,21 +1,14 @@
 class cappetta-datastax::profile_jmxtrans  {
   Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
-  class { 'java':
-    distribution  => 'jdk',
-    notify        => Exec['Download JMXTrans']
-  } ->
+  # Docnotes:  This class has a functional programming setup using Anchors (->)
+  # this ensures specific pre-requisite dependencies are met.
+  # currently this is tested only for ubunty setups.
+  # Expanded OS support to come in future releases.
 
   exec {
     "Download JMXTrans":
       command => 'wget -O /tmp/jmxtrans.deb https://github.com/downloads/jmxtrans/jmxtrans/jmxtrans_20121016-175251-ab6cfd36e3-1_all.deb',
-      notify  => Exec['Deploy JMXTrans Config']
-  } ->
-
-
-  exec {
-    "Deploy JMXTrans Config":
-      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/config.etc.default.jmxtrans /etc/default/jmxtrans',
       notify  => Package['Install JMXTrans']
   } ->
 
@@ -23,5 +16,22 @@ class cappetta-datastax::profile_jmxtrans  {
     provider => dpkg,
     ensure   => latest,
     source   => "/tmp/jmxtrans.deb",
+    require  => Class['java']
+  } ->
+
+  exec {
+    "Deploy JMXTrans Config":
+      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/config.etc.default.jmxtrans /etc/default/jmxtrans',
+  } ->
+
+  exec {
+    "Deploy JMXTrans.json ":
+      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/usr.share.jmxtrans.json /usr/share/jmxtrans/jmxtrans.json',
+  } ->
+
+  file_line{'add path to .bashrc':
+    line => 'export PATH="$PATH:/usr/share/jmxtrans:"',
+    path => '/home/vagrant/.bashrc'
   }
+
 }

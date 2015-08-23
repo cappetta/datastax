@@ -1,0 +1,32 @@
+{
+  "servers" : [ {
+    "port" : "3000",
+    "host" : "agent1",
+    "alias" : "cassandra_agent1",
+    "queries" : [ {
+      "obj" : "org.apache.cassandra.metrics.ColumnFamily.LiveSSTableCount",
+      "attr" : [ "Value" ],
+      "resultAlias" : "LiveSSTableCount",
+      "outputWriters" : [ {
+        "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+        "settings" : {
+          "port" : 2003,
+          "host" : "graphite"
+            }
+        },
+        {
+        "@class" : "com.googlecode.jmxtrans.model.output.KeyOutWriter",
+        "settings" : {
+            "outputFile" : "/tmp/keyout2.txt",
+            "maxLogFileSize" : "10MB",
+            "maxLogBackupFiles" : 200,
+            "debug" : true,
+            "typeNames" : ["name"]
+           }
+        }
+      ]
+    }
+
+    ]
+  } ]
+}

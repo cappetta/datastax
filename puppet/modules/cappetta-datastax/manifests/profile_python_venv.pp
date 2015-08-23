@@ -1,20 +1,27 @@
 
 
-include stdlib
+#include stdlib
 include cappetta-datastax
 
 
-file { "/home/vagrant/venv/":
-#    ensure => absent,
-    force  => true,
-    ensure => "directory",
+file { '/home/vagrant/venv/':
+  ensure => 'directory',
+  force  => true,
+
 #    notify => File['setup venv'],
 }
+#
+#packages = ['puppet-lint', 'cassandra']
+#
+#package { $packages:
+#    ensure => 'installed',
+#
+#}
 
 
-file { "/home/vagrant/venv/python3/":
-ensure => absent,
-force  => true
+file { '/home/vagrant/venv/python3/':
+  ensure => absent,
+  force  => true
 }
 #
 #
