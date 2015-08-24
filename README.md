@@ -2,9 +2,9 @@
 
 There were 3 goals of this project:
 
-One was to automate the creation of a highly available, fault-tolerant, big data infrastructure using Cassandra
-Two was to leverage puppet to build roles & profiles automating the install of critical components.
-Three was to leverage yaml to abstract & parametrize the configurations.
+    1. to automate the creation of a highly available, fault-tolerant, big data infrastructure using Cassandra
+    2. to leverage puppet to build roles & profiles automating the install of critical components.
+    3. to leverage yaml to abstract & parametrize the configurations.
 
 
 This project automates the creation of a multi-node cassandra environment across 2 virtual data centers.
