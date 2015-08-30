@@ -28,10 +28,26 @@ class cappetta-datastax::profile_jmxtrans  {
     "Deploy JMXTrans.json ":
       command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/usr.share.jmxtrans.json /usr/share/jmxtrans/jmxtrans.json',
   } ->
+  exec {
+    "Deploy JMXTrans.yaml":
+      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/jmxtrans.yaml /usr/share/jmxtrans/tools/jmxtrans.yaml',
+  } ->
+
+  exec {
+    "Deploy JMXTrans.yaml":
+      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/jmxtrans.yaml /usr/share/jmxtrans/tools/jmxtrans.yaml',
+  } ->
+
+  exec {
+    "Create jmxtrans.json from yaml":
+      command => 'cd /usr/share/jmxtrans/tools/ && sudo ./yaml2jmxtrans.py ',
+#      require => Class['python']
+  } ->
 
   file_line{'add path to .bashrc':
     line => 'export PATH="$PATH:/usr/share/jmxtrans:"',
     path => '/home/vagrant/.bashrc'
   }
+
 
 }

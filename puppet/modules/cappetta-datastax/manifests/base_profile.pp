@@ -18,7 +18,7 @@ class cappetta-datastax::base_profile {
       owner   => 'root',
       group   => 'root',
       mode    => '0744', # Use 0700 if it is sensitive
-      notify  => Exec['Install JQ'],
+#      notify  => Exec['Install JQ'],
   }
 
   exec {
@@ -26,6 +26,14 @@ class cappetta-datastax::base_profile {
       command => 'wget -O /usr/bin/jq http://stedolan.github.io/jq/download/linux64/jq',
       refreshonly => true
   }
+
+# cassandra has java dependency
+# todo: conflicts w/ profile_jmxtrans - how to create logic to prevent error?
+  class { 'java':
+    distribution  => 'jdk',
+    notify        => Exec['fix missing packages']
+  }
+
 
 }
 

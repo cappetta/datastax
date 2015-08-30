@@ -14,4 +14,6 @@ ff02::2 ip6-allrouters
 192.168.0.12    agent2
 192.168.0.13    agent3
 192.168.0.14    agent4
+192.168.0.15    agent5
+192.168.0.16    agent6
 192.168.0.50    opscenter

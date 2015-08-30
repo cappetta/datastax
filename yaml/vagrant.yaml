@@ -5,7 +5,7 @@
     ip:         "192.168.0.100" #todo: ipv6
     box:        "ubuntu/trusty64"
     init:       "./puppet/modules/cappetta-datastax/files/graphite.install.sh"
-    ram:        2046
+    ram:        2048
     forwards:
       - port1:
         host:   8443
@@ -19,111 +19,103 @@
       - port4:
         host:   22004
         guest:  2004
-    provisions:
-      - provision_this_first:
-        provision:    "shell"
-        path:         "./this.dir.sh"
-        priviledged:  "true"
-      - provision_this_second:
-        provision:    "puppet"
-#        info:
-      - manifests:
-        - Sanity_Validation:
-          manifest: "./this.dir.pp"
     folders:
       - first_folder_to_share:
         local:   "../"
         virtual: "/home/vagrant/shared_foundation"
 
-  - name: agent1
-    ip:         "192.168.0.11"
-    box:        "ubuntu/trusty64"
-    init:       "./puppet/ubuntu_puppet_install_bootstrap.sh"
-    ram:        2048
+  - name:                 agent1
+    ip:                   "192.168.0.11"
+    box:                  "ubuntu/trusty64"
+    init:                 "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                  1500
     forwards:
       - port1:
-        host:   7199
-        guest:  7199
-    provisions:
-      - shell:
-        path:         "./this.dir.sh"
-        priviledged:  "true"
-      - puppet:
-        manifest:     "./puppet/manifest/default.pp"
-# todo: multiple manifests
-#        - Sanity_Validation:
-#          manifest:     "./puppet/manifest/sanity.pp"
+        host:             7199
+        guest:            7199
     folders:
       - first_folder_to_share:
-        local:   "../"
-        virtual: "/home/vagrant/shared_foundation"
+        local:            "../"
+        virtual:          "/home/vagrant/shared_foundation"
 
-  - name: agent2
+  - name:               agent2
     ip:                 "192.168.0.12"
     box:                "ubuntu/trusty64"
     init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
-    ram:                2048
-    forwards:
-      - port1:
-        host:           7197
-        guest:          7199
-    provisions:
-      - shell:
-        path:           "./this.dir.sh"
-        priviledged:    "true"
-      - puppet:
-        manifest:       "./puppet/manifest/default.pp"
-    folders:
-      - first_folder_to_share:
-        local:          "/Users/cappetta/DropBox/github/"
-        virtual:        "/home/vagrant/shared_foundation"
-
-  - name: agent3
-    ip:                 "192.168.0.13"
-    box:                "ubuntu/trusty64"
-    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
-    ram:                2048
+    ram:                1500
     forwards:
       - port1:
         host:           7198
         guest:          7199
-    provisions:
-      - shell:
-        path:           "./this.dir.sh"
-        priviledged:    "true"
-      - puppet:
-        manifest:       "./puppet/manifest/default.pp"
+    folders:
+      - first_folder_to_share:
+        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+
+  - name:               agent3
+    ip:                 "192.168.0.13"
+    box:                "ubuntu/trusty64"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    forwards:
+      - port1:
+        host:           7197
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+
+  - name:               agent4
+    ip:                 "192.168.0.14"
+    box:                "ubuntu/trusty64"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    forwards:
+      - port1:
+        host:           7196
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+
+  - name:               agent5
+    ip:                 "192.168.0.15"
+    box:                "ubuntu/trusty64"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    forwards:
+      - port1:
+        host:           7195
+        guest:          7199
     folders:
       - first_folder_to_share:
         local:          "/Users/cappetta/DropBox/github/"
         virtual:        "/home/vagrant/shared_foundation"
 
 
-  - name: opscenter
-    ip:         "192.168.0.50"
-    box:        "hashicorp/precise64"
+
+  - name:               opscenter
+    ip:                 "192.168.0.50"
+    box:                "hashicorp/precise64"
     forwards: # auto-correct is enabled by default
       -
-        host:   8888
-        guest:  8888
+        host:           8888
+        guest:          8888
       -
-        host:   9159
-        guest:  9159
+        host:           9159
+        guest:          9159
       -
-        host:   3926 # Jconsole remote connect port
-        guest:  3926
-    init:   "./puppet/modules/cappetta-datastax/files/install.opscenter.sh" #todo: confirm path
-    ram:    2048
-    provisions:
-      - provision: "shell"
-        path: "./this.dir.sh"
-        priviledged: "true"
-      - provision: "puppet"
-        manifest: "./this.dir.pp"
+        host:           3926 # Jconsole remote connect port
+        guest:          3926
+    init:               "./puppet/modules/cappetta-datastax/files/opscenter.install.sh"
+    ram:                2048
     folders:
-          - folder1:
-            local:   "/Users/cappetta/DropBox/github/"
-            virtual: "/home/vagrant/shared_foundation"
+        - folder1:
+          local:        "/Users/cappetta/DropBox/github/"
+          virtual:    "/home/vagrant/shared_foundation"
+
 
 # ref: http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/
 # ref: http://stackoverflow.com/questions/27319688/vagrant-not-setting-ip-address-on-vmware-fusion-multibox-multiprovider-vagrantf

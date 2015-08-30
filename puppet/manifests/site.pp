@@ -1,22 +1,21 @@
 node 'opscenter'{
 #  include profiles::datastax
-  include cappetta-datastax::opscenter
+#  include cappetta-datastax::opscenter
 }
 
 # match any datastax nodes "node#" naming convention
 node /^agent\d+$/ {
-#  include profiles::cassandra
   include cappetta-datastax::base_profile
   include cappetta-datastax::profile_cassandra
   include cappetta-datastax::profile_jmxtrans
-#  include cappetta-datastax::cassandra-cappetta
-
+#  include cappetta-datastax::refresh_cluster
 
 }
 
 node graphite {
-#  include profiles::base
-#  include cappetta-datastax::graphite
+  include cappetta-datastax::base_profile
+  include cappetta-datastax::profile_jmxtrans
+
 }
 
 

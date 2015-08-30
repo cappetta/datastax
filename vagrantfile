@@ -28,8 +28,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       node_config.vm.network :private_network , ip: node["ip"] # type: "dhcp" - doesn't appear to work
-      node_config.vm.synced_folder './', '/tmp/vagrant' # always mount shared folder in /tmp
 
+      node_config.vm.synced_folder './', '/tmp/vagrant' # always mount shared folder in /tmp
 
       # Recursive logic for multiple port forwarding
       node['forwards'].each do |port|
@@ -47,9 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.provision :puppet do |puppet|
         puppet.manifests_path   = 'puppet/manifests'
         puppet.module_path      = 'puppet/modules'
-        # puppet.manifest_file    = 'default.pp'    #todo: multiple iterations logic as well active/inactive flag
-        # puppet.manifest_file    = 'init.test.env.pp'
-        puppet.manifest_file    = 'site.pp'
+        puppet.manifest_file    = 'site.pp' # this is your main manifest which describes your desired setup.  name it accordingly
       end
       node_config.vm.post_up_message = "Post Complete message - Yeah!"
     end

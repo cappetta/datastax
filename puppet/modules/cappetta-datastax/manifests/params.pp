@@ -1,4 +1,4 @@
-class datastax::params {
+class cappetta-datastax::params {
 
   $autoupdate = hiera('datastax::params::autoupdate')
   $nodes      = hiera('datastax::params::servers')

@@ -30,9 +30,8 @@ vagrant up --no-provision
  
 # but run provision tasks in parallel
 cat <<EOF | parallel_provision
-graphite
 agent1
 agent2
-agent3
+graphite
 opscenter
 EOF
