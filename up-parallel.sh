@@ -32,6 +32,9 @@ vagrant up --no-provision
 cat <<EOF | parallel_provision
 agent1
 agent2
+agent3
+agent4
+agent5
 graphite
 opscenter
 EOF

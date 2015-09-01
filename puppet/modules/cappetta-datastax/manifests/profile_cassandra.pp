@@ -9,10 +9,10 @@ class cappetta-datastax::profile_cassandra {
 
 # cassandra has java dependency
 # todo: conflicts w/ profile_jmxtrans - how to create logic to prevent error?
-  class { 'java':
-  distribution  => 'jdk',
-  notify        => Exec['fix missing packages']
-  }
+#  class { 'java':
+#  distribution  => 'jdk',
+#  notify        => Exec['fix missing packages']
+#  }
 
 
 # This is a simple smoke test

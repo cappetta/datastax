@@ -1,5 +1,5 @@
 class cappetta-datastax::profile_jmxtrans  {
-  Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
+  Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/", "/usr/share/jmxtrans/" ] }
 
   # Docnotes:  This class has a functional programming setup using Anchors (->)
   # this ensures specific pre-requisite dependencies are met.
@@ -32,16 +32,20 @@ class cappetta-datastax::profile_jmxtrans  {
     "Deploy JMXTrans.yaml":
       command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/jmxtrans.yaml /usr/share/jmxtrans/tools/jmxtrans.yaml',
   } ->
-
-  exec {
-    "Deploy JMXTrans.yaml":
-      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/jmxtrans.yaml /usr/share/jmxtrans/tools/jmxtrans.yaml',
+  exec {"Deploy yaml2jmxtool":
+    command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/yaml2jmxtrans.py /usr/share/jmxtrans/tools/',
+  } ->
+exec {"Create Cassandra_JMX.json from yaml":
+      command => 'python ./tools/yaml2jmxtrans.py ./tools/jmxtrans.yaml',
+      cwd     => '/usr/share/jmxtrans/',
   } ->
 
-  exec {
-    "Create jmxtrans.json from yaml":
-      command => 'cd /usr/share/jmxtrans/tools/ && sudo ./yaml2jmxtrans.py ',
-#      require => Class['python']
+  exec{'kill jmxtrans & restart':
+    command => "kill -9 $(ps -eaf | grep -i jmxtrans | grep -iv grep|awk '{print \$2}')  "
+  } ->
+  exec{'start jmxtrans monitoring':
+    command => 'jmxtrans.sh start Cassandra_JMX.json',
+    cwd     => '/usr/share/jmxtrans/'
   } ->
 
   file_line{'add path to .bashrc':
