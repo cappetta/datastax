@@ -1,0 +1,153 @@
+# Host/Port Grahpite listens on
+graphite_host: "graphite"
+graphite_port: 2003
+
+# Global port to query JMX on
+# query_port and global_host_alias are mandatory
+# Will accept a blank space if alias and host is provided in host sets
+query_port: 7199
+global_host_alias:
+
+# Query definitions, every query needs obj, resultAlias, attr
+#   from jmxtrans format, "name" must be given for referencing
+#   the query in host sets
+queries:
+    - name: mempool
+      obj: "java.lang:type=MemoryPool,name=*"
+      resultAlias: "memorypool"
+      attr:
+        - "Usage"
+
+    - name: heap_memory
+      obj: "java.lang:type=Memory"
+      resultAlias: "heap_memory"
+      attr:
+        - "HeapMemoryUsage"
+
+    - name: PermGen
+      obj: "java.lang:type=MemoryPool,name=CMS Perm Gen"
+      resultAlias: "PermGen"
+      attr:
+        - "Usage"
+
+    - name: ThreadPool
+      obj: "Catalina:type=ThreadPool,name=*"
+      resultAlias: "ThreadPool"
+
+    - name: Executor
+      obj: "Catalina:type=Executor,name=*"
+      resultAlias: "Executor"
+      attr:
+        - "poolSize"
+        - "activeCount"
+    
+    - name: GlobalRequestProcessor
+      obj: "Catalina:type=GlobalRequestProcessor,name=*"
+      resultAlias: "GlobalRequestProcessor"
+      attr:
+        - "bytesSent"
+        - "bytesReceived"
+        - "errorCount"
+        - "maxTime"
+        - "requestCount"
+
+    - name: Sessions
+      obj: "Catalina:type=Manager,context=[context name],host=[hostname]"
+      resultAlias: "Sessions"
+      attr:
+        - "activeSessions"
+        - "expiredSessions"
+        - "sessionCounter"
+
+    - name: ActiveConnections
+      obj: "Catalina:type=DataSource,context=[context name],host=[hostname],class=javax.sql.DataSource,name=*"
+      resultAlias: "ActiveConnections"
+      attr:
+        - "numActive"
+        - "numIdle"
+
+    - name: gc
+      obj: "java.lang:type=GarbageCollector,name=*"
+      resultAlias: "gc"
+      attr:
+        - "CollectionCount"
+        - "CollectionTime"
+
+    - name: hibernate
+      obj: "Hibernate:type=statistics,name=*"
+      resultAlias: "hibernate"
+      attr:
+        - "QueryExecutionMaxTime"
+        - "Queries"
+        - "TransactionCount"
+
+    - name: OperatingSystem
+      obj: "java.lang:type=OperatingSystem"
+      resultAlias: "sys"
+      attr:
+        - "AvailableProcessors"
+        - "CommittedVirtualMemorySize"
+        - "FreePhysicalMemorySize"
+        - "FreeSwapSpaceSize"
+        - "MaxFileDescriptorCount"
+        - "OpenFileDescriptorCount"
+        - "ProcessCpuLoad"
+        - "ProcessCpuTime"
+        - "SystemCpuTime"
+        - "SystemLoadAverage"
+        - "TotalSwapSpaceSize"
+        - "TotalPhysicalMemorySize"
+
+    - name: threads
+      obj : "java.lang:type=Threading"
+      resultAlias: "threads"
+      attr:
+        - "CurrentThreadCpuTime"
+        - "DaemonThreadCount"
+        - "PeakThreadCount"
+        - "ThreadCount"
+        - "TotalStartedThreadCount"
+
+    - name: SSTable
+      obj: "org.apache.cassandra.metrics:type=ColumnFamily,name=LiveSSTableCount"
+      resultAlias: "LiveSSTableCount"
+      attr:
+        - "Value"
+
+    - name: memtable
+      obj: "org.apache.cassandra.metrics:type=ColumnFamily,name=AllMemtablesLiveDataSize"
+      resultAlias: "AllMemTablesLiveDataSize"
+      attr:
+        - "Value"
+
+    - name: writelatency
+      obj: "org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency"
+      resultAlias: "Write.Latency.95th"
+      attr:
+        - "95thPercentile"
+
+# Define named sets of hosts that get the same queries
+# query_names and hosts is a list
+# Mention like machine01.yourdomain.com:5400;mac1
+# if query_port and global_host_alias are not specified
+sets:
+  - setname: Cassandra_JMX
+    query_names:
+            - mempool
+            - PermGen
+            - heap_memory
+            - Executor
+            - ThreadPool
+            - GlobalRequestProcessor
+            - Sessions
+            - ActiveConnections
+            - gc
+            - hibernate
+            - OperatingSystem
+            - threads
+            - SSTable
+            - memtable
+            - writelatency
+
+    hosts:
+            - 10.207.235.160
