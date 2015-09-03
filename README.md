@@ -1,40 +1,54 @@
+## To use:
+Follow the ordered :
+
+    1. Launch the Script to bring the nodes up and then perform parallel provisioning
+        a) ./up-parallel.sh
+
+    2. Log into OpsCenter Web UI @ http://localhost:8888 or http://192.168.0.50:8888
+        a. Select Manage an Existing Cluster
+            - Enter IP: 192.168.0.11
+        b. Wait - Verify the OpsCenter Console contains a dashboard
+            displaying 2-DataCenters w/ 5 servers total.
+
+    3. Confirm Graphite Web UI @ https://localhost:8443
+        a. Accept Security Exception
+        b. Browse the "Server Metrics" file on the left hand side
+        c. Manually make some pretty graphs (automation of dashboard in progress)
+
+
 # Overview
 
 There were 3 goals of this project:
 
-    1. to automate the creation of a highly available, fault-tolerant, big data infrastructure using Cassandra
-    2. to leverage puppet to build roles & profiles automating the install of critical components.
+    1. to automate the creation of a highly available, fault-tolerant,
+        big data infrastructure using Cassandra
+
+    2. to leverage puppet to build roles & profiles automating
+        the install of critical components.
+
     3. to leverage yaml to abstract & parametrize the configurations.
 
+This project automates the creation of a multi-node cassandra environment across
+2 virtual data centers.
 
-This project automates the creation of a multi-node cassandra environment across 2 virtual data centers.
+The end result is 7 vms
+    - an OpsCenter node
+    - a Graphite Prototyping Dashboard
+    - 5 Cassandra nodes w/ JMXTrans setup & actively streaming metrics to Graphite
 
-The scripts create an OpsCenter node, a Graphite Prototyping Dashboard, and 3 Cassandra nodes w/ JMXTrans installed to monitor the state of the java virtual machines.
+This project leverages YAML to enable reuse of the vagrantfile.
 
-This project leverages YAML for vagrant robustness yet YAML has not been incorporated yet into the puppet manifests.
+Personally - It improves the ability to constantly tear-down / rebuild and a
+nice improvement in usability between host and virutal environments.
 
+YAML integration w/ puppet is yet to happen.
 
 This project has a published page under GitHub @ http://cappetta.github.io/datastax
 
 
 
 
-## To use:
-First, Execute the following commands
 
-    1. Launch the Script to bring the nodes up and then perform parallel provisioning
-        a) ./up-parallel.sh
-
-    2. Log into OpsCenter Web UI @ http://localhost:8888
-        2a. Register Cassandra Clients:
-            - Select Manage an Existing Cluster
-            - Enter IP: 192.168.0.11
-    3. Verify the OpsCenter Console contains a dashboard displaying 2-DataCenters w/ 3 servers in each DC.
-    
-
-
-    3. Confirm Graphite Web UI @ https://localhost:8443
-        3a. Accept Security Exception
 
 
 
@@ -49,7 +63,7 @@ Please create bug reports and feature requests in [GitHub issues] [2].
 
 ### Authors and Contributors
 author: thomas cappetta
-reference source & authors to be published w/ v1.0.
+reference to be published w/ 1.0
 
 
 ##### Release notes:
