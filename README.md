@@ -38,20 +38,12 @@ The end result is 7 vms
 
 This project leverages YAML to enable reuse of the vagrantfile.
 
-Personally - It improves the ability to constantly tear-down / rebuild and a
-nice improvement in usability between host and virutal environments.
+Personally - It improves the usability when constantly tearing-down / rebuilding systems while interatcing
+between host and virtual environments.
 
 YAML integration w/ puppet is yet to happen.
 
 This project has a published page under GitHub @ http://cappetta.github.io/datastax
-
-
-
-
-
-
-
-
 
 Support
 -------
