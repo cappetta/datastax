@@ -1,0 +1,76 @@
+[
+  {
+    "title": "Heap Memory",
+    "target": [
+      "servers.*.threads.TotalStartedThreadCount",
+      "servers.*.threads.ThreadCount",
+      "servers.*.threads.PeakThreadCount"
+    ]
+  },
+  {
+    "title": "Heap Memory",
+    "target": [
+      "servers.*.heap_memory.HeapMemoryUsage_init",
+      "servers.*.heap_memory.HeapMemoryUsage_max",
+      "servers.*.heap_memory.HeapMemoryUsage_used",
+      "servers.*.heap_memory.HeapMemoryUsage_committed"
+    ]
+  },
+  {
+    "target": [
+      "servers.*.threads.DaemonThreadCount",
+      "servers.*.threads.CurrentThreadCpuTime",
+      "servers.*.threads.TotalStartedThreadCount",
+      "servers.*.threads.ThreadCount"
+    ]
+  },
+  {
+    "target": [
+      "*.*.sys.SystemLoadAverage",
+      "*.*.memorypool.PSEdenSpace.Usage_used",
+      "servers.*.heap_memory.HeapMemoryUsage_used",
+      "servers.*.threads.CurrentThreadCpuTime"
+    ]
+  },
+  {
+    "target": [
+      "servers.*.memorypool.CodeCache.Usage_used"
+    ]
+  },
+  {
+    "target": [
+      "servers.*.memorypool.PSPermGen.Usage_used"
+    ]
+  },
+  {
+    "target": [
+      "*.*.sys.FreePhysicalMemorySize"
+    ]
+  },
+  {
+    "target": [
+      "*.*.sys.ProcessCpuTime"
+    ]
+  },
+  {
+    "target": [
+      "servers.*.heap_memory.HeapMemoryUsage_used",
+      "servers.*.memorypool.PSEdenSpace.Usage_used"
+    ]
+  },
+  {
+    "target": [
+      "servers.*.threads.CurrentThreadCpuTime"
+    ]
+  },
+  {
+    "target": [
+      "servers.*.sys.ProcessCpuLoad"
+    ]
+  },
+  {
+    "target": [
+      "servers.*.sys.SystemLoadAverage"
+    ]
+  }
+]
