@@ -25,15 +25,11 @@ class cappetta-datastax::profile_jmxtrans  {
   } ->
 
   exec {
-    "Deploy JMXTrans.json ":
-      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/usr.share.jmxtrans.json /usr/share/jmxtrans/jmxtrans.json',
-  } ->
-  exec {
     "Deploy JMXTrans.yaml":
       command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/jmxtrans.yaml /usr/share/jmxtrans/tools/jmxtrans.yaml',
   } ->
   exec {"Deploy yaml2jmxtool":
-    command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/yaml2jmxtrans.py /usr/share/jmxtrans/tools/',
+    command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/yaml2jmxtrans.py /usr/share/jmxtrans/tools/yaml2jmxtrans.py',
   } ->
 exec {"Create Cassandra_JMX.json from yaml":
       command => 'python ./tools/yaml2jmxtrans.py ./tools/jmxtrans.yaml',
