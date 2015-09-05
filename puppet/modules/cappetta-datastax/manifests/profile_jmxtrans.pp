@@ -6,8 +6,7 @@ class cappetta-datastax::profile_jmxtrans  {
   # currently this is tested only for ubunty setups.
   # Expanded OS support to come in future releases.
 
-  exec {
-    "Download JMXTrans":
+  exec {"Download JMXTrans":
       command => 'wget -O /tmp/jmxtrans.deb https://github.com/downloads/jmxtrans/jmxtrans/jmxtrans_20121016-175251-ab6cfd36e3-1_all.deb',
       notify  => Package['Install JMXTrans']
   } ->
