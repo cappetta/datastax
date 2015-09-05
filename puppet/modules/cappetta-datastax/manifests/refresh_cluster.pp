@@ -5,8 +5,6 @@ class cappetta-datastax::refresh_cluster{
   exec { 'put cassandra config file: cassndra.yaml':          command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/cassandra.yaml /etc/cassandra', refreshonly => true, }->
   exec { 'put cassandra config file: custom_metrics.yaml':    command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/custom_metrics.yaml /etc/cassandra', refreshonly => true,}->
   exec { 'put cassandra config file: env.sh':                 command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/cassandra-env.sh /etc/cassandra', refreshonly => true,}->
-  exec { "Deploy yaml2jmxtool":                               command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/yaml2jmxtrans.py /usr/share/jmxtrans/tools/', refreshonly => true,} ->
-  exec { "Deploy JMXTrans.yaml":                              command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/jmxtrans.yaml /usr/share/jmxtrans/tools/jmxtrans.yaml', refreshonly => true,} ->
   file_line { 'add stomp interface':
     line    => 'stomp_interface: 192.168.0.50' ,
     path    => '/var/lib/datastax-agent/conf/address.yaml',
@@ -26,18 +24,5 @@ class cappetta-datastax::refresh_cluster{
   }->
   exec{'restart datastax-agent':
     command => 'sudo service datastax-agent restart'
-  } ->
-  exec{'change ownership: /usr/local/jmxtrans':
-    command => 'chown -R vagrant:vagrant /usr/share/jmxtrans ',
-    refreshonly => true,
-  } ->
-  exec{'kill jmxtrans & restart':
-    command => "kill -9 $(ps -eaf | grep -i jmxtrans | grep -iv grep|awk '{print \$2}')  "
-  } ->
-  exec{'start jmxtrans monitoring':
-    command => '/usr/share/jmxtrans/jmxtrans.sh start /usr/share/jmxtrans/Cassandra_JMX.json'
   }
-
-
-
 }

@@ -1,5 +1,5 @@
 class cappetta-datastax::refresh_graphite{
-  Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
+  Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/",'/usr/share/jmxtrans/','/usr/share/jmxtrans/tools/' ] }
 
   exec { "refresh yaml2jmxtool":   command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/yaml2jmxtrans.py /usr/share/jmxtrans/tools/', refreshonly => true,} ->
   exec { "refresh JMXTrans.yaml":  command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/jmxtrans.yaml /usr/share/jmxtrans/tools/jmxtrans.yaml', refreshonly => true,} ->
@@ -17,12 +17,16 @@ class cappetta-datastax::refresh_graphite{
     command => 'chown -R vagrant:vagrant /usr/share/jmxtrans ',
     refreshonly => true,
   } ->
-  exec{'kill jmxtrans & restart':
-    command => "kill -9 $(ps -eaf | grep -i jmxtrans | grep -iv grep|awk '{print \$2}')  "
-  } ->
+#  exec{'kill jmxtrans & restart':
+#    command => "kill -9 $(ps -eaf | grep -i jmxtrans | grep -iv grep|awk '{print \$2}')  "
+#  } ->
+  exec{'create Cassandra_JMX file':
+    command => 'yaml2jmxtrans.py jmxtrans.yaml',
+    cwd     => '/usr/share/jmxtrans/tools' #todo: does cwd work???
+  }
   exec{'start jmxtrans monitoring':
-    command => './jmxtrans.sh start Cassandra_JMX.json',
-    cwd     => '/usr/share/jmxtrans'
+    command => 'jmxtrans.sh start /usr/share/jmxtrans/tools/Cassandra_JMX.json',
+    cwd     => '/usr/share/jmxtrans' #todo: does cwd work???
   }
 
 
