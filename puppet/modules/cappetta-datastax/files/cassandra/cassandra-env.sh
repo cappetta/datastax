@@ -286,7 +286,7 @@ else
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.ssl=false"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=false"
-  JVM_OPTS="$JVM_OPTS -Dcassandra.metricsReporterConfigFile=/etc/cassandra/custom_metrics.yaml" #todo: yaml for dynamic config file
+  JVM_OPTS="$JVM_OPTS -Dcassandra.metricsReporterConfigFile=/etc/cassandra/jmxtrans.cassandra.yaml" #todo: yaml for dynamic config file
 fi
 
 # To use mx4j, an HTML interface for JMX, add mx4j-tools.jar to the lib/

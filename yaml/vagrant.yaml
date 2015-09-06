@@ -4,7 +4,7 @@
   - name: graphite
     ip:         "192.168.0.100" #todo: ipv6
     box:        "ubuntu/trusty64"
-    init:       "./puppet/modules/cappetta-datastax/files/graphite.install.sh"
+    init:       "./puppet/modules/cappetta-datastax/files/graphite/graphite.install.sh"
     ram:        2048
     forwards:
       - port1:
@@ -123,7 +123,7 @@
       -
         host:           3926 # Jconsole remote connect port
         guest:          3926
-    init:               "./puppet/modules/cappetta-datastax/files/opscenter.install.sh"
+    init:               "./puppet/modules/cappetta-datastax/files/opscenter/opscenter.install.sh"
     ram:                2048
     folders:
         - folder1:

@@ -1,9 +1,9 @@
 class cappetta-datastax::refresh_cluster{
   Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
-  exec { 'put cassandra config file: topology.properties':    command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/cassandra-topology.properties /etc/cassandra', refreshonly => true,}->
-  exec { 'put cassandra config file: cassndra.yaml':          command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/cassandra.yaml /etc/cassandra', refreshonly => true, }->
-  exec { 'put cassandra config file: custom_metrics.yaml':    command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/custom_metrics.yaml /etc/cassandra', refreshonly => true,}->
+  exec { 'put cassandra config file: topology.properties':    command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/cassandra/cassandra-topology.properties /etc/cassandra', refreshonly => true,}->
+  exec { 'put cassandra config file: cassndra.yaml':          command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/cassandra/cassandra.yaml /etc/cassandra', refreshonly => true, }->
+  exec { 'put cassandra config file: custom_metrics.yaml':    command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/jmx/jmxtrans.cassandra.yaml /etc/cassandra', refreshonly => true,}->
   exec { 'put cassandra config file: env.sh':                 command => 'cp /vagrant/puppet/modules/cappetta-datastax/files/cassandra-env.sh /etc/cassandra', refreshonly => true,}->
   file_line { 'add stomp interface':
     line    => 'stomp_interface: 192.168.0.50' ,
