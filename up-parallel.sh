@@ -34,6 +34,8 @@ agent1
 agent2
 agent3
 agent4
-graphite
+agent5
+agent6
 opscenter
+graphite
 EOF
