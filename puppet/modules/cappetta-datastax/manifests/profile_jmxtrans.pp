@@ -20,7 +20,7 @@ class cappetta-datastax::profile_jmxtrans  {
 
   exec {
     "Deploy JMXTrans Config":
-      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/config.etc.default.jmxtrans /etc/default/jmxtrans',
+      command => 'sudo cp /vagrant/puppet/modules/cappetta-datastax/files/jmx/config.etc.default.jmxtrans /etc/default/jmxtrans',
   } ->
 
   exec {
