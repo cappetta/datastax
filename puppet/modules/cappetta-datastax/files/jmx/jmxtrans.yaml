@@ -18,57 +18,6 @@ queries:
       attr:
         - "Usage"
 
-    - name: heap_memory
-      obj: "java.lang:type=Memory"
-      resultAlias: "heap_memory"
-      attr:
-        - "HeapMemoryUsage"
-
-    - name: PermGen
-      obj: "java.lang:type=MemoryPool,name=CMS Perm Gen"
-      resultAlias: "PermGen"
-      attr:
-        - "Usage"
-
-    - name: ThreadPool
-      obj: "Catalina:type=ThreadPool,name=*"
-      resultAlias: "ThreadPool"
-      attr:
-        - "maxThreads"
-        - "connectionCount"
-
-    - name: Executor
-      obj: "Catalina:type=Executor,name=*"
-      resultAlias: "Executor"
-      attr:
-        - "poolSize"
-        - "activeCount"
-    
-    - name: GlobalRequestProcessor
-      obj: "Catalina:type=GlobalRequestProcessor,name=*"
-      resultAlias: "GlobalRequestProcessor"
-      attr:
-        - "bytesSent"
-        - "bytesReceived"
-        - "errorCount"
-        - "maxTime"
-        - "requestCount"
-
-    - name: Sessions
-      obj: "Catalina:type=Manager,context=[context name],host=[hostname]"
-      resultAlias: "Sessions"
-      attr:
-        - "activeSessions"
-        - "expiredSessions"
-        - "sessionCounter"
-
-    - name: ActiveConnections
-      obj: "Catalina:type=DataSource,context=[context name],host=[hostname],class=javax.sql.DataSource,name=*"
-      resultAlias: "ActiveConnections"
-      attr:
-        - "numActive"
-        - "numIdle"
-
     - name: gc
       obj: "java.lang:type=GarbageCollector,name=*"
       resultAlias: "gc"
@@ -137,13 +86,6 @@ sets:
   - setname: Cassandra_JMX
     query_names:
             - mempool
-            - PermGen
-            - heap_memory
-            - Executor
-            - ThreadPool
-            - GlobalRequestProcessor
-            - Sessions
-            - ActiveConnections
             - gc
             - hibernate
             - OperatingSystem
@@ -151,7 +93,11 @@ sets:
             - SSTable
             - memtable
             - writelatency
-
     hosts:
-            - 10.207.235.160
-            - 10.202.4.88
+            - 192.168.0.11
+            - 192.168.0.12
+            - 192.168.0.13
+            - 192.168.0.14
+            - 192.168.0.15
+            - 192.168.0.16
+

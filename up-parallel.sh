@@ -20,7 +20,7 @@ parallel_provision() {
         echo "Provisioning '$box'. Output will be in: $box.out.txt" 1>&2
         echo $box
     done | xargs -P $MAX_PROCS -I"BOXNAME" \
-        sh -c 'vagrant provision BOXNAME >BOXNAME.out.txt 2>&1 || echo "Error Occurred: BOXNAME"'
+        sh -c 'vagrant provision BOXNAME > /tmp/BOXNAME.out.txt 2>&1 || echo "Error Occurred: BOXNAME"'
 }
  
 ## -- main -- ##
@@ -35,6 +35,7 @@ agent2
 agent3
 agent4
 agent5
-graphite
+agent6
 opscenter
+graphite
 EOF
