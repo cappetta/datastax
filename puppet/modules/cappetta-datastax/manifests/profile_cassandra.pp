@@ -17,7 +17,7 @@ class cappetta-datastax::profile_cassandra {
 
 # This is a simple smoke test
 # of the file_line resource type.
-  $packages = ['libjna-java','python-support','dsc20','cassandra=2.0.16','datastax-agent']
+  $packages = ['libjna-java','python-support','dsc22','cassandra=2.1.9','datastax-agent']
   file { '/etc/apt/sources.list.d/cassandra.sources.list':
     ensure => file,
     mode   => '0644',

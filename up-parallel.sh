@@ -26,15 +26,18 @@ parallel_provision() {
 ## -- main -- ##
  
 # start boxes sequentially to avoid vbox explosions
-vagrant up --no-provision
+vagrant up --no-provision --provider=openstack
  
 # but run provision tasks in parallel
 cat <<EOF | parallel_provision
-agent1
-agent2
-agent3
-agent4
-agent5
 graphite
-opscenter
 EOF
+
+#
+#agent1
+#agent2
+#agent3
+#agent4
+#agent5
+#agent6
+#opscenter

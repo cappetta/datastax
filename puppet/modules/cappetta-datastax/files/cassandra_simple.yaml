@@ -1,0 +1,24 @@
+#Agent1
+cluster_name: 'Cappetta-DataStax'
+initial_token: 0
+seed_provider:
+    - seeds:  "192.168.0.11, 192.168.0.12"
+listen_address: 192.168.0.11
+endpoint_snitch: RackInferringSnitch
+
+#Agent2
+cluster_name: 'Cappetta-DataStax'
+initial_token: 56713727820156410577229101238628035242
+seed_provider:
+    - seeds:  "192.168.0.11, 192.168.0.12"
+listen_address: 192.168.0.12
+endpoint_snitch: RackInferringSnitch
+
+#Agent3
+cluster_name: 'Cappetta-DataStax'
+initial_token: 113427455640312821154458202477256070485
+seed_provider:
+    - seeds:  "192.168.0.11, 192.168.0.12"
+listen_address: 192.168.0.13
+
+endpoint_snitch: RackInferringSnitch

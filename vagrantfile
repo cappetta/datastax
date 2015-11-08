@@ -6,7 +6,10 @@ Vagrant.require_version ">= 1.7.2"
 VAGRANTFILE_API_VERSION = "2"
 
 require 'yaml'
-nodes = YAML.load_file("./yaml/vagrant.yaml")
+require 'vagrant-openstack-provider'
+
+nodes = YAML.load_file("./yaml/vagrant.openstack.yaml")
+openstack = YAML.load_file("./yaml/openstack.yaml")
 # ref: http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/
 
 
@@ -25,20 +28,49 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.provider :virtualbox do |vb|
         # vb.gui = true
         vb.customize ['modifyvm', :id, '--name', node["name"], '--memory', memory.to_s ]
+        # Recursive logic for multiple port forwarding
       end
 
-      node_config.vm.network :private_network , ip: node["ip"] # type: "dhcp" - doesn't appear to work
-
-      node_config.vm.synced_folder './', '/tmp/vagrant' # always mount shared folder in /tmp
-
-      # Recursive logic for multiple port forwarding
+      # node_config.vm.network :private_network , ip: node["ip"] # type: "dhcp" - doesn't appear to work
       node['forwards'].each do |port|
         node_config.vm.network "forwarded_port", guest: port['guest'], host: port['host'], autocorrect: true
       end
 
+      node_config.vm.synced_folder './', '/tmp/vagrant' # always mount shared folder in /tmp
+
+
       # Recursive logic for multiple shared folders
       node['folders'].each do |folder|
         node_config.vm.synced_folder folder['local'], folder['virtual']
+      end
+
+      # Make sure the private key from the key pair is provided
+      node_config.ssh.username = "root"           # login for the VM
+      node_config.ssh.private_key_path='/home/cassandra/test.pem'
+
+      node_config.vm.provider :openstack do |os|
+        os.keypair_name           = 'test'
+        os.username               = 'cappetta'
+        os.password               = 'capp'
+        os.tenant_name            = 'Cassandra'
+        os.flavor                 = 'm1.large'
+        # os.image                  = 'CentOS-7'
+        os.image                  =  node["box"]
+        os.security_groups        = ['default']
+        os.openstack_auth_url     = "http://192.168.1.5:5000/v2.0/tokens"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
+        os.networks               = 'tenant-net'
+	      os.floating_ip_pool	      = 'homelan-net'
+        # todo: debug yaml not working
+        # os.keypair_name           = openstack["keypair"]
+        # os.username               = openstack["username"]
+        # os.password               = openstack["password"]
+        # os.tenant_name            = openstack["tenant"]
+        # os.flavor                 = openstack["flavor"]
+        # os.image                  = openstack["image"]
+        # os.security_groups        = openstack["security_groups"]
+        # os.openstack_auth_url     = "http://" + openstack["auth_url"] + ":5000/v2.0/tokens"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
+        # os.networks               = openstack["networks"]
+        # os.floating_ip_pool       = openstack["floatingip"]
       end
 
       node_config.vm.provision :shell, path: node["init"], privileged: true #todo: defect - not working for centos
@@ -56,3 +88,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 end
 
 #
+
+
