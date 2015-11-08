@@ -17,11 +17,11 @@ class cappetta-datastax::refresh_graphite{
     command => 'chown -R vagrant:vagrant /usr/share/jmxtrans ',
     refreshonly => true,
   } ->
-#  exec{'kill jmxtrans & restart':
-#    command => "kill -9 $(ps -eaf | grep -i jmxtrans | grep -iv grep|awk '{print \$2}')  "
-#  } ->
+  exec{'kill jmxtrans ':
+    command => "kill -9 $(ps -eaf | grep -i jmxtrans | grep -iv grep|awk '{print \$2}')  "
+  } ->
   exec{'create Cassandra_JMX file':
-    command => 'yaml2jmxtrans.py jmxtrans.yaml',
+    command => 'python /usr/share/jmxtrans/tools/yaml2jmxtrans.py /usr/share/jmxtrans/tools/jmxtrans.yaml',
     cwd     => '/usr/share/jmxtrans/tools' #todo: does cwd work???
   }
   exec{'start jmxtrans monitoring':
