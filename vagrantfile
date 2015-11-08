@@ -53,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         os.username               = 'cappetta'
         os.password               = 'capp'
         os.tenant_name            = 'Cassandra'
-        os.flavor                 = 'm1.large'
+        os.flavor                 = 'm1.medium'
         # os.image                  = 'CentOS-7'
         os.image                  =  node["box"]
         os.security_groups        = ['default']
