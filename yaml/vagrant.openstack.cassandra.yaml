@@ -1,0 +1,241 @@
+# vagrant.yaml
+# @author: cappetta
+---
+  - name:                 agent1
+    ip:                   "10.0.0.41"
+    floating_ip:  "192.168.1.151"
+    box:                  "centos-7"
+    init:                 "./puppet/centos_puppet_install_bootstrap.sh"
+    ram:                  1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:             7199
+        guest:            7199
+    folders:
+      - first_folder_to_share:
+        local:            "./"
+        virtual:          "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/centos_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+  - name:               agent2
+    ip:                 "10.0.0.42"
+    floating_ip:  "192.168.1.152"
+    box:                "centos-7"
+    init:               "./puppet/centos_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:           7198
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/centos_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+  - name:               agent3
+    ip:                 "10.0.0.43"
+    floating_ip:  "192.168.1.153"
+    box:                "centos-7"
+    init:               "./puppet/centos_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:           7197
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/centos_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+  - name:               splunk
+    ip:                "10.0.0.46"
+    floating_ip:       "192.168.1.156"
+    box:               "centos-7"
+    init:              "./puppet/centos_puppet_install_bootstrap.sh"
+    ram:               1500
+    flavor:            'm1.large'
+    forwards:
+      - port1:
+        host:           8000,9997,8089
+        guest:
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+  #        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/centos_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+  - name:               kali
+    ip:                 "10.0.0.44"
+    floating_ip:        "192.168.1.154"
+    box:                "trusty32"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:             'm1.medium'
+    forwards:
+      - port1:
+        host:           7197
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+  - name:               nessus
+    ip:                 "10.0.0.45"
+    floating_ip:        "192.168.1.155"
+    box:                "trusty64"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:             'm1.large'
+    forwards:
+      - port1:
+        host:           7197
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+#
+#  - name:               agent6
+#    ip:                 "10.0.0.46"
+#    floating_ip:        "192.168.1.156"
+#    box:                "centos-7"
+#    init:               "./puppet/centos_puppet_install_bootstrap.sh"
+#    ram:                1500
+#    flavor:               'm1.large'
+#    forwards:
+#      - port1:
+#        host:           7197
+#        guest:          7199
+#    folders:
+#      - first_folder_to_share:
+#        local:          "./"
+##        local:          "/Users/cappetta/DropBox/github/"
+#        virtual:        "/home/vagrant/shared_foundation"
+
+  - name: grafana
+    ip:           "10.0.0.188" #todo: ipv6
+    floating_ip:  "192.168.1.188"
+    box:          "centos-7"
+#    init:         "./puppet/modules/cappetta-datastax/files/graphite/graphite.install.sh"
+    init:               "./puppet/centos_puppet_install_bootstrap.sh"
+    ram:          2048
+    flavor:               'm1.medium'
+    forwards:
+      - port1:
+        host:     8443
+        guest:    443
+      - port2:
+        host:     8125
+        guest:    8125
+      - port3:
+        host:     22003
+        guest:    2003
+      - port4:
+        host:     22004
+        guest:    2004
+    folders:
+      - first_folder_to_share:
+        local:   "./"
+        virtual: "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/centos_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+  - name: graphite
+    ip:           "10.0.0.189" #todo: ipv6
+    floating_ip:  "192.168.1.189"
+    box:          "ubuntu/trusty64"
+    init:         "./puppet/modules/cappetta-datastax/files/graphite/graphite.install.sh"
+#    init:               "./puppet/centos_puppet_install_bootstrap.sh"
+    ram:          2048
+    flavor:               'm1.medium'
+    forwards:
+      - port1:
+        host:     8443
+        guest:    443
+      - port2:
+        host:     8125
+        guest:    8125
+      - port3:
+        host:     22003
+        guest:    2003
+      - port4:
+        host:     22004vagrant.openstack.rhel.yaml
+        guest:    2004
+    folders:
+      - first_folder_to_share:
+        local:   "./"
+        virtual: "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+  - name:               opscenter
+    ip:                 "10.0.0.190"
+    floating_ip:        "192.168.1.190"
+    box:                "centos-7"
+    init:               "./puppet/centos_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:               'm1.large'
+    forwards:
+      -
+        host:           8888
+        guest:          8888
+      -
+        host:           9159
+        guest:          9159
+      -
+        host:           3926 # Jconsole remote connect port
+        guest:          3926
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+        virtual:        "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/centos_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+# ref: http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/
+# ref: http://stackoverflow.com/questions/27319688/vagrant-not-setting-ip-address-on-vmware-fusion-multibox-multiprovider-vagrantf

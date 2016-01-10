@@ -6,11 +6,13 @@ Vagrant.require_version ">= 1.7.2"
 VAGRANTFILE_API_VERSION = "2"
 
 require 'yaml'
-require 'vagrant-openstack-provider'
+require 'vagrant-openstack-provider' #todo: file and fix bug on vagrant openstack reset --> add rm -rf .vagrant logic.
 
-nodes = YAML.load_file("./yaml/vagrant.openstack.yaml")
+nodes = YAML.load_file("./yaml/vagrant.openstack.cassandra.yaml")
 openstack = YAML.load_file("./yaml/openstack.yaml")
+
 # ref: http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/
+# nodes = YAML.load_file("./yaml/vagrant.openstack.minecraft.yaml")
 
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -19,61 +21,64 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
   nodes.each do |node|
     config.vm.define node["name"] do |node_config|
-      # node_config.ssh.private_key_path = "id_rsa"  # todo: RESEARCH::what happens if you don't do this during build time?
       node_config.vm.box = node["box"]
       node_config.vm.host_name = node["name"]
-      # node_config.vm.network "public_network", bridge: 'en0: Wi-Fi (AirPort)'
       memory = node["ram"] ? node["ram"] : 1024;
-
-      node_config.vm.provider :virtualbox do |vb|
-        # vb.gui = true
-        vb.customize ['modifyvm', :id, '--name', node["name"], '--memory', memory.to_s ]
-        # Recursive logic for multiple port forwarding
-      end
-
-      # node_config.vm.network :private_network , ip: node["ip"] # type: "dhcp" - doesn't appear to work
-      node['forwards'].each do |port|
-        node_config.vm.network "forwarded_port", guest: port['guest'], host: port['host'], autocorrect: true
-      end
-
       node_config.vm.synced_folder './', '/tmp/vagrant' # always mount shared folder in /tmp
-
-
       # Recursive logic for multiple shared folders
       node['folders'].each do |folder|
         node_config.vm.synced_folder folder['local'], folder['virtual']
       end
 
-      # Make sure the private key from the key pair is provided
-      node_config.ssh.username = "root"           # login for the VM
-      node_config.ssh.private_key_path='/home/cassandra/test.pem'
 
+      # Provider Functionality
+
+
+      # Make sure the private key from the key pair is provided
+      # node_config.ssh.username = "ubuntu"           # login for the VM  TODO: THIS AVOIDs THE NEED TO MODIFY THE QCOW2 IMAGE
+      node_config.ssh.username = "root"           # login for the VM  TODO: THIS AVOIDs THE NEED TO MODIFY THE QCOW2 IMAGE
+
+      # node_config.ssh.private_key_path='/home/cassandra/test.pem'  todo: debug why not working
       node_config.vm.provider :openstack do |os|
-        os.keypair_name           = 'test'
-        os.username               = 'cappetta'
-        os.password               = 'capp'
-        os.tenant_name            = 'Cassandra'
-        os.flavor                 = 'm1.large'
-        # os.image                  = 'CentOS-7'
-        os.image                  =  node["box"]
-        os.security_groups        = ['default']
+        #todo: collapse into single YAML
+        # os.keypair_name           = nodes['key']
+        # os.username               = nodes['username']
+        # os.password               = nodes['password']
+        # os.tenant_name            = nodes['tenant']
+        # os.flavor                 = node['flavor']
+        # os.image                  = node["box"]
+        # os.security_groups        = nodes['security_groups']
+        # os.openstack_auth_url     = "http://192.168.1.5:5000/v2.0/tokens"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
+        # os.networks               = nodes["tenant_network"]
+	      # # os.floating_ip_pool	    = nodes["floatingip_pool"]
+	      # os.floating_ip	          = node["floating_ip"]
+
+        os.keypair_name           = openstack['key']
+        os.username               = openstack['username']
+        os.password               = openstack['password']
+        os.tenant_name            = openstack['tenant']
+        os.flavor                 = node['flavor']
+        os.image                  = node["box"]
+        os.security_groups        = openstack['security_groups']
         os.openstack_auth_url     = "http://192.168.1.5:5000/v2.0/tokens"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
-        os.networks               = 'tenant-net'
-	      os.floating_ip_pool	      = 'homelan-net'
-        # todo: debug yaml not working
-        # os.keypair_name           = openstack["keypair"]
-        # os.username               = openstack["username"]
-        # os.password               = openstack["password"]
-        # os.tenant_name            = openstack["tenant"]
-        # os.flavor                 = openstack["flavor"]
-        # os.image                  = openstack["image"]
-        # os.security_groups        = openstack["security_groups"]
-        # os.openstack_auth_url     = "http://" + openstack["auth_url"] + ":5000/v2.0/tokens"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
-        # os.networks               = openstack["networks"]
-        # os.floating_ip_pool       = openstack["floatingip"]
+        os.networks               = openstack["tenant_network"]
+        # if defined? nodes["floatingip_pool"]
+        #   os.floating_ip_pool	    = nodes["floatingip_pool"]
+        # else
+        os.floating_ip	          = node["floating_ip"]
+        # end
+
+        #todo: execute Openstack Security Group script to setup ports
+
       end
 
-      node_config.vm.provision :shell, path: node["init"], privileged: true #todo: defect - not working for centos
+      node_config.vm.network "private_network", ip: node["ip"]
+
+      node['scripts'].each do |script|
+        node_config.vm.provision :shell, path: script['name']
+      end
+
+      # node_config.vm.provision :shell, path: node["init"], privileged: true #todo: defect -  working but need to figure out how to order the execution
 
       # Run Puppet Manifests
       node_config.vm.provision :puppet do |puppet|
@@ -81,9 +86,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         puppet.module_path      = 'puppet/modules'
         puppet.manifest_file    = 'site.pp' # this is your main manifest which describes your desired setup.  name it accordingly
       end
+    node_config.vm.provider :virtualbox do |vb|
+      # vb.gui = true
+      vb.customize ['modifyvm', :id, '--name', node["name"], '--memory', memory.to_s ]
+      # Recursive logic for multiple port forwarding
+      node['forwards'].each do |port|
+        node_config.vm.network "forwarded_port", guest: port['guest'], host: port['host'], autocorrect: true
+      end
+
+
       node_config.vm.post_up_message = "Post Complete message - Yeah!"
     end
 
+    # Virtualbox provider functionality
+    end
   end
 end
 

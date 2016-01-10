@@ -1,0 +1,95 @@
+# vagrant.openstack.minecraft.yaml
+# @author: cappetta
+---
+  - name: minecraft1
+    ip:           "10.0.0.181" #todo: ipv6
+    floating_ip:  "192.168.1.181"
+    box:          "trusty64"
+    init:         "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:          2048
+    flavor:       'm1.xlarge'
+    forwards:
+      - port1:
+        host:     25565
+        guest:    25565
+
+    folders:
+      - first_folder_to_share:
+        local:   "./"
+        virtual: "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+  - name: minecraft2
+    ip:           "10.0.0.182" #todo: ipv6
+    floating_ip:  "192.168.1.182"
+    box:          "trusty64"
+    init:         "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:          2048
+    flavor:       'm1.small'
+    forwards:
+      - port1:
+        host:     25565
+        guest:    25565
+
+    folders:
+      - first_folder_to_share:
+        local:   "./"
+        virtual: "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+
+  - name: minecraft3
+    ip:           "10.0.0.183" #todo: ipv6
+    floating_ip:  "192.168.1.183"
+    box:          "trusty64"
+    init:         "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:          2048
+    flavor:       'm1.small'
+    forwards:
+      - port1:
+        host:     25565
+        guest:    25565
+
+    folders:
+      - first_folder_to_share:
+        local:   "./"
+        virtual: "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+  - name: minecraft4
+    ip:           "10.0.0.184" #todo: ipv6
+    floating_ip:  "192.168.1.184"
+    box:          "trusty64"
+    init:         "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:          2048
+    flavor:       'm1.small'
+    forwards:
+      - port1:
+        host:     25565
+        guest:    25565
+
+    folders:
+      - first_folder_to_share:
+        local:   "./"
+        virtual: "/home/vagrant/shared_foundation"
+    scripts:
+          - first_script_to_execute:
+            name:   "./puppet/ubuntu_puppet_install_bootstrap.sh"
+          - second_script_to_execute:
+            name:   "./puppet/install_modules.sh"
+
+
+# ref: http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/
+# ref: http://stackoverflow.com/questions/27319688/vagrant-not-setting-ip-address-on-vmware-fusion-multibox-multiprovider-vagrantf

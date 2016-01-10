@@ -1,0 +1,7 @@
+fixtures:
+  symlinks:
+    jira: "#{source_dir}"
+  repositories:
+    deploy: "https://github.com/mkrakowitzer/puppet-deploy"
+    staging: "https://github.com/nanliu/puppet-staging"
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib"

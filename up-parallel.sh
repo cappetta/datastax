@@ -15,36 +15,47 @@
  
 MAX_PROCS=4
  
-parallel_provision() {
+parallel_shell_provision() {
     while read box; do
-        echo "Provisioning '$box'. Output will be in: $box.out.txt" 1>&2
+        echo "Shell Provisioning '$box'. Output will be in: $box.out.txt" 1>&2
         echo $box
     done | xargs -P $MAX_PROCS -I"BOXNAME" \
-        sh -c 'vagrant provision BOXNAME > /tmp/BOXNAME.out.txt 2>&1 || echo "Error Occurred: BOXNAME"'
+        sh -c 'vagrant provision --provision-with shell BOXNAME > /tmp/BOXNAME.out.txt 2>&1 || echo "Error Occurred: BOXNAME"' 
+        #sh -c 'vagrant provision --provision-with puppet BOXNAME > /tmp/BOXNAME.out.txt 2>&1 || echo "Error Occurred: BOXNAME"'
 }
- 
+
+
+parallel_puppet_provision() {
+    while read box; do
+        echo "Puppet Provisioning '$box'. Output will be in: $box.out.txt" 1>&2
+        echo $box
+    done | xargs -P $MAX_PROCS -I"BOXNAME" \
+        sh -c 'vagrant provision --provision-with puppet BOXNAME >> /tmp/BOXNAME.out.txt 2>&1 || echo "Error Occurred: BOXNAME"' 
+}
+
+agents="agent1 agent2 agent3 opscenter"
+
 ## -- main -- ##
- 
-# start boxes sequentially to avoid vbox explosions
-vagrant up --no-provision --provider=openstack
- 
+#
+## start boxes sequentially to avoid vbox explosions
+vagrant destroy -f $agents
+vagrant up --no-provision --provider=openstack $agents
+
 # but run provision tasks in parallel
-cat <<EOF | parallel_provision
+cat <<EOF | parallel_shell_provision
 agent1
 agent2
 agent3
-agent4
-agent5
-agent6
 opscenter
-graphite
+EOF
+#graphite
+#grafana
+#
+cat <<EOF | parallel_puppet_provision
+agent1
+agent2
+agent3
+opscenter
 EOF
 
-#
-#agent1
-#agent2
-#agent3
-#agent4
-#agent5
-#agent6
-#opscenter
+

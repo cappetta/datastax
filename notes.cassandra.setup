@@ -1,0 +1,37 @@
+root@agent1:~# history |grep -i jar
+    8  find / -name "*jna*jar"
+   25  find / -name "*jna*jar"
+   32  ln -s /usr/share/cassandra/lib/jna.jar jna.jar
+   33  ln -s /usr/share/cassandra/lib/jna-4.0.0.jar jna-4.0.0.jar
+   49  find / -name "*jna*jar"
+   56  rm jna.jar
+   57  rm jna-4.0.0.jar
+   58  wget https://maven.java.net/content/repositories/releases/net/java/dev/jna/jna/4.2.1/jna-4.2.1.jar
+  115  ll /usr/share/cassandra/lib/jna-4.0.0.jar
+  116  ls -alrt /usr/share/cassandra/lib/jna-4.0.0.jar
+  119  ls -alrt /usr/share/cassandra/lib/jna-4.0.0.jar
+  122  rm jna.jar
+  160  find / -name "jna*jar"
+  174  wget https://maven.java.net/content/repositories/releases/net/java/dev/jna/jna/4.2.1/jna-4.2.1.jar
+  175  wget https://maven.java.net/content/repositories/releases/net/java/dev/jna/jna-platform/4.2.1/jna-platform-4.2.1.jar
+  177  ln -s ./jna-4.2.1.jar jna.jar
+  236  mv metrics-graphite-3.0.2.jar ./test/
+  238  jar xf metrics-graphite-3.0.2.jar
+  282  wget http://search.maven.org/remotecontent?filepath=com/yammer/metrics/metrics-graphite/2.0.3/metrics-graphite-2.0.3.jar
+  289  wget http://search.maven.org/remotecontent?filepath=com/yammer/metrics/metrics-graphite/2.0.3/metrics-graphite-2.0.3.jar
+  290  rm remotecontent\?filepath\=com%2Fyammer%2Fmetrics%2Fmetrics-graphite%2F2.0.3%2Fmetrics-graphite-2.0.3.jar
+  291  wget http://search.maven.org/remotecontent?filepath=com/yammer/metrics/metrics-graphite/2.0.3/metrics-graphite-2.0.3.jar -o metrics-graphite-2.0.3.jar
+  315  ls remotecontent\?filepath\=com%2Fyammer%2Fmetrics%2Fmetrics-graphite%2F2.0.3%2Fmetrics-graphite-2.0.3.jar
+  325  rm metrics-graphite-2.0.3.jar
+  326  wget http://search.maven.org/remotecontent?filepath=com/yammer/metrics/metrics-graphite/2.0.3/metrics-graphite-2.0.3.jar -O metrics-graphite-2.0.3.jar
+  338  cp metrics-graphite-2.0.3.jar /tmp/
+  341  jar xf metrics-graphite-2.0.3.jar
+  345  mv metrics-graphite-2.0.3.jar test/
+  346  jar xf metrics-graphite-2.0.3.jar
+  347  jar xf ./metrics-graphite-2.0.3.jar
+  351  jar xf ./metrics-graphite-2.0.3.jar
+  364  wget http://central.maven.org/maven2/com/codahale/metrics/metrics-graphite/3.0.2/metrics-graphite-3.0.2.jar -O metrics-graphite-3.0.2.jar
+  366  wget http://central.maven.org/maven2/com/codahale/metrics/metrics-graphite/3.0.2/metrics-graphite-3.0.2.jar -O metrics-graphite-3.0.2.jar
+  371  ls metrics-graphite-3.0.2.jar
+  372  cp metrics-graphite-3.0.2.jar  /tmp/
+  390  history |grep -i jar

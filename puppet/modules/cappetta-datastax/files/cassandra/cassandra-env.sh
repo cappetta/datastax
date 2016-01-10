@@ -14,6 +14,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+export JAVA_HOME='/opt/jdk1.8.0_66/bin'
+export PATH=$PATH:$JAVA_HOME
 
 calculate_heap_sizes()
 {
@@ -98,11 +100,13 @@ JVM_VERSION=${jvmver%_*}
 JVM_PATCH_VERSION=${jvmver#*_}
 
 if [ "$JVM_VERSION" \< "1.7" ] ; then
+    echo "JAVA_VERSION: $JVM_VE     RSION :::  PATCH_VERSION: $JVM_PATCH_VERSION"
     echo "Cassandra 2.0 and later require Java 7u25 or later."
     exit 1;
 fi
 
 if [ "$JVM_VERSION" \< "1.8" ] && [ "$JVM_PATCH_VERSION" \< "25" ] ; then
+    echo "JAVA_VERSION: $JVM_VERSION :::  PATCH_VERSION: $JVM_PATCH_VERSION"
     echo "Cassandra 2.0 and later require Java 7u25 or later."
     exit 1;
 fi
@@ -287,7 +291,7 @@ else
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.ssl=false"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=false"
-  JVM_OPTS="$JVM_OPTS -Dcassandra.metricsReporterConfigFile=/etc/cassandra/jmxtrans.cassandra.yaml" #todo: yaml for dynamic config file
+  JVM_OPTS="$JVM_OPTS -Dcassandra.metricsReporterConfigFile=/etc/cassandra/conf/jmxtrans.cassandra.yaml" #todo: yaml for dynamic config file
 fi
 
 # To use mx4j, an HTML interface for JMX, add mx4j-tools.jar to the lib/

@@ -3,12 +3,22 @@
 class cappetta-datastax::base_profile {
   Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
-  $packages = ['vim','curl', 'zip','unzip','git','python-pip', ]
-
-  exec { 'fix missing packages':
-    command => 'sudo /usr/bin/apt-get update --fix-missing',
-    } -> # and then....
-      package{ $packages: ensure => "latest"}
+  #RHEL & CentOS
+  if $::osfamily == 'RedHat' {
+      $packages = ['vim-X11','vim-common','vim-enhanced','vim-minimal','curl', 'zip','unzip','git','python-pip', 'htop','tcpdump','nmap-ncat']
+      exec { 'update all':
+        command => 'yum update -y' # && yum clean all -y'
+      }
+  # Ubuntu
+  } elsif $::osfamily == 'Debian' {
+      $packages = ['vim','curl', 'zip','unzip','git','python-pip', 'htop', 'tcpdump']
+      exec { 'fix missing packages':
+        command => 'sudo /usr/bin/apt-get update --fix-missing',
+      }
+  } else {
+      fail("OS family ${::osfamily} not supported")
+  }
+  package{ $packages: ensure => "latest"}
 
   file {
     '/etc/hosts':
@@ -28,11 +38,11 @@ class cappetta-datastax::base_profile {
   }
 
 # cassandra has java dependency
-# todo: conflicts w/ profile_jmxtrans - how to create logic to prevent error?
-  class { 'java':
-    distribution  => 'jdk',
-    notify        => Exec['fix missing packages']
-  }
+## todo: conflicts w/ profile_jmxtrans - how to create logic to prevent error?
+#  class { 'java':
+#    distribution  => 'jdk',
+#    notify        => Exec['fix missing packages']
+#  }
 
 
 }

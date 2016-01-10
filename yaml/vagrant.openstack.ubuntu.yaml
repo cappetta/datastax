@@ -1,0 +1,181 @@
+# vagrant.yaml
+# @author: cappetta
+---
+  - name:                 agent1
+    ip:                   "10.0.0.41"
+    floating_ip:  "192.168.1.151"
+    box:                  "ubuntu/trusty64"
+    init:                 "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                  1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:             7199
+        guest:            7199
+    folders:
+      - first_folder_to_share:
+        local:            "./"
+        virtual:          "/home/vagrant/shared_foundation"
+
+  - name:               agent2
+    ip:                 "10.0.0.42"
+    floating_ip:  "192.168.1.152"
+    box:                "ubuntu/trusty64"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:           7198
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+
+  - name:               agent3
+    ip:                 "10.0.0.43"
+    floating_ip:  "192.168.1.153"
+    box:                "ubuntu/trusty64"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:           7197
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+
+  - name:               agent4
+    ip:                 "10.0.0.44"
+    floating_ip:  "192.168.1.154"
+    box:                "ubuntu/trusty64"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:           7197
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+
+  - name:               agent5
+    ip:                 "10.0.0.45"
+    floating_ip:  "192.168.1.155"
+    box:                "ubuntu/trusty64"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:           7197
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+
+  - name:               agent6
+    ip:                 "10.0.0.46"
+    floating_ip:        "192.168.1.156"
+    box:                "ubuntu/trusty64"
+    init:               "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:           7197
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+
+  - name: graphite
+    ip:           "10.0.0.189" #todo: ipv6
+    floating_ip:  "192.168.1.189"
+    box:          "ubuntu/trusty64"
+    init:         "./puppet/modules/cappetta-datastax/files/graphite/graphite.install.sh"
+    ram:          2048
+    flavor:               'm1.medium'
+    forwards:
+      - port1:
+        host:     8443
+        guest:    443
+      - port2:
+        host:     8125
+        guest:    8125
+      - port3:
+        host:     22003
+        guest:    2003
+      - port4:
+        host:     22004
+        guest:    2004
+    folders:
+      - first_folder_to_share:
+        local:   "./"
+        virtual: "/home/vagrant/shared_foundation"
+
+  - name:               opscenter
+    ip:                 "10.0.0.190"
+    floating_ip:        "192.168.1.190"
+    box:                "ubuntu/trusty64"
+    init:               "./puppet/modules/cappetta-datastax/files/opscenter/opscenter.install.sh"
+    ram:                2048
+    flavor:             'm1.medium'
+    forwards: # auto-correct is enabled by default
+      -
+        host:           8888
+        guest:          8888
+      -
+        host:           9159
+        guest:          9159
+      -
+        host:           3926 # Jconsole remote connect port
+        guest:          3926
+    folders:
+        - folder1:
+          local:          "./"
+#          local:        "/Users/cappetta/DropBox/github/"
+          virtual:    "/home/vagrant/shared_foundation"
+
+
+  - name: minecraft
+    ip:           "10.0.0.175" #todo: ipv6
+    floating_ip:  "192.168.1.175"
+    box:          "ubuntu/trusty64"
+    init:         "./puppet/ubuntu_puppet_install_bootstrap.sh"
+    ram:          2048
+    flavor:       'm1.medium'
+    forwards:
+      - port1:
+        host:     25565
+        guest:    25565
+#      - port2:
+#        host:     8125
+#        guest:    8125
+#      - port3:
+#        host:     22003
+#        guest:    2003
+#      - port4:
+#        host:     22004
+#        guest:    2004
+    folders:
+      - first_folder_to_share:
+        local:   "./"
+        virtual: "/home/vagrant/shared_foundation"
+
+
+# ref: http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/
+# ref: http://stackoverflow.com/questions/27319688/vagrant-not-setting-ip-address-on-vmware-fusion-multibox-multiprovider-vagrantf

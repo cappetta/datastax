@@ -1,0 +1,31 @@
+# @author:cappetta
+# @purpose: openstack connectivity
+---
+keypair:                'test'
+username:               'cappetta'
+password:               'capp'
+tenant:                 'Cassandra'
+flavor:                 'm1.medium'
+image:                  'centos-7'
+security_groups:
+  - default
+  - elk
+auth_url:               '192.168.1.5'
+tenant_network:         'tenant-net'
+floatingip_pool:        'homelan-net'
+#  - name: minecraft1
+#    ip:           "10.0.0.181" #todo: ipv6
+#    floating_ip:  "192.168.1.181"
+#    box:          "ubuntu/trusty64"
+#    init:         "./puppet/ubuntu_puppet_install_bootstrap.sh"
+#    ram:          2048
+#    flavor:       'm1.small'
+#    forwards:
+#      - port1:
+#        host:     25565
+#        guest:    25565
+#
+#    folders:
+#      - first_folder_to_share:
+#        local:   "./"
+#        virtual: "/home/vagrant/shared_foundation"

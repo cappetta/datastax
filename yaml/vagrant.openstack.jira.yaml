@@ -1,0 +1,39 @@
+# vagrant.yaml
+# @author: cappetta
+---
+  - name:                 confluence
+    ip:                   "10.0.0.30"
+    floating_ip:          "192.168.1.151"
+    box:                  "centos-7"
+    init:                 "./puppet/centos_puppet_install_bootstrap.sh"
+    ram:                  1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:             7199
+        guest:            7199
+    folders:
+      - first_folder_to_share:
+        local:            "./"
+        virtual:          "/home/vagrant/shared_foundation"
+
+  - name:               jira
+    ip:                 "10.0.0.31"
+    floating_ip:        "192.168.1.152"
+    box:                "centos-7"
+    init:               "./puppet/centos_puppet_install_bootstrap.sh"
+    ram:                1500
+    flavor:               'm1.large'
+    forwards:
+      - port1:
+        host:           7198
+        guest:          7199
+    folders:
+      - first_folder_to_share:
+        local:          "./"
+#        local:          "/Users/cappetta/DropBox/github/"
+        virtual:        "/home/vagrant/shared_foundation"
+
+
+# ref: http://blog.scottlowe.org/2014/10/22/multi-machine-vagrant-with-yaml/
+# ref: http://stackoverflow.com/questions/27319688/vagrant-not-setting-ip-address-on-vmware-fusion-multibox-multiprovider-vagrantf

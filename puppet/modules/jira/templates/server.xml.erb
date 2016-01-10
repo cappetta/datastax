@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   ====================================================================================
+
+   Atlassian JIRA Standalone Edition Tomcat Configuration.
+
+
+   See the following for more information
+
+   http://confluence.atlassian.com/display/JIRA/Configuring+JIRA+Standalone
+
+   ====================================================================================
+ -->
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<Server port="8005" shutdown="SHUTDOWN">
+
+    <!--APR library loader. Documentation at /docs/apr.html -->
+    <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on"/>
+    <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
+    <Listener className="org.apache.catalina.core.JasperListener"/>
+    <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
+    <Service name="Catalina">
+        <Connector port="<%= @tomcatPort %>"
+                   <%- if @tomcatAddress -%>
+                   address="<%= @tomcatAddress %>"
+                   <%- end -%>
+                   maxThreads="<%= @tomcatMaxThreads %>"
+                   minSpareThreads="<%= @tomcatMinSpareThreads %>"
+                   connectionTimeout="<%= @tomcatConnectionTimeout %>"
+                   enableLookups="<%= @tomcatEnableLookups %>"
+                   maxHttpHeaderSize="<%= @tomcatMaxHttpHeaderSize %>"
+                   protocol="<%= @tomcatProtocol %>"
+                   useBodyEncodingForURI="<%= @tomcatUseBodyEncodingForURI %>"
+                   acceptCount="<%= @tomcatAcceptCount %>"
+                   disableUploadTimeout="<%= @tomcatDisableUploadTimeout %>"
+<% if @tomcatNativeSsl -%>
+                   redirectPort="<%= @tomcatHttpsPort %>"
+<% end -%>
+<% if @proxy -%>
+<%   @proxy.sort.each do |key,value| -%>
+                   <%= key %> = <%= "\'#{value}\'" %>
+<%   end -%>
+<% end -%>
+        />
+
+<% if @tomcatNativeSsl -%>
+        <Connector
+                    port="<%= @tomcatHttpsPort %>"
+                    protocol="org.apache.coyote.http11.Http11Protocol"
+                    <%- if @tomcatAddress -%>
+                    address="<%= @tomcatAddress %>"
+                    <%- end -%>
+                    maxHttpHeaderSize="<%= @tomcatMaxHttpHeaderSize %>"
+                    SSLEnabled="true"
+                    maxThreads="<%= @tomcatMaxThreads %>"
+                    minSpareThreads="<%= @tomcatMinSpareThreads %>"
+                    enableLookups="<%= @tomcatEnableLookups %>"
+                    disableUploadTimeout="<%= @tomcatDisableUploadTimeout %>"
+                    acceptCount="<%= @tomcatAcceptCount %>"
+<%   if ! @proxy['scheme'] -%>
+                    scheme="https"
+<%   end -%>
+                    secure="true"
+                    clientAuth="false"
+                    sslProtocol="TLS"
+                    useBodyEncodingForURI="true"
+                    keyAlias="<%= @tomcatKeyAlias %>"
+                    keystoreFile="<%= @tomcatKeystoreFile %>"
+                    keystorePass="<%= @tomcatKeystorePass %>"
+                    keystoreType="<%= @tomcatKeystoreType %>"
+<%   if @proxy -%>
+<%     @proxy.sort.each do |key,value| -%>
+                    <%= key %>=<%= "\'#{value}\'" %>
+<%     end -%>
+<%   end -%>
+        />
+<% end -%>
+
+<% if @ajp and ! @ajp.empty? -%>
+        <Connector enableLookups="false" URIEncoding="UTF-8"
+<%   @ajp.sort.each do |key, value| -%>
+                   <%= key %> = <%= "\"#{value}\"" %>
+<%   end -%>
+        />
+<% end -%>
+  
+        <Engine name="Catalina" defaultHost="localhost">
+            <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true">
+
+                <Context path="<%= @contextpath %>" docBase="${catalina.home}/atlassian-jira" reloadable="false" useHttpOnly="true">
+
+                    <Resource name="UserTransaction" auth="Container" type="javax.transaction.UserTransaction"
+                              factory="org.objectweb.jotm.UserTransactionFactory" jotm.timeout="60"/>
+                    <Manager pathname=""/>
+                </Context>
+
+            </Host>
+
+            <Valve className="org.apache.catalina.valves.AccessLogValve" resolveHosts="false"
+                   pattern="%a %{jira.request.id}r %{jira.request.username}r %t &quot;%m %U%q %H&quot; %s %b %D &quot;%{Referer}i&quot; &quot;%{User-Agent}i&quot; &quot;%{jira.request.assession.id}r&quot;"/>
+
+        </Engine>
+    </Service>
+</Server>

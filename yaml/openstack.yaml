@@ -5,9 +5,13 @@ keypair:                'test'
 username:               'cappetta'
 password:               'capp'
 tenant:                 'Cassandra'
-flavor:                 'm1.large'
+flavor:                 'm1.medium'
 image:                  'centos-7'
-security_groups:        'default'
+security_groups:
+  - default
+  - elk
+  - minecraft
+  - cassandra
 auth_url:               '192.168.1.5'
-network:                '448918bb-1bb0-4576-ac8c-f8eee6e6bdd4'
-floatingip:             'public'
+tenant_network:         'tenant-net'
+floatingip_pool:        'homelan-net'
