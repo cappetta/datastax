@@ -1,3 +1,5 @@
 *.txt
 .vagrant/
 .idea/
+*.iml
+*.DS_Store
