@@ -41,18 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # node_config.ssh.private_key_path='/home/cassandra/test.pem'  todo: debug why not working
       node_config.vm.provider :openstack do |os|
         #todo: collapse into single YAML
-        # os.keypair_name           = nodes['key']
-        # os.username               = nodes['username']
-        # os.password               = nodes['password']
-        # os.tenant_name            = nodes['tenant']
-        # os.flavor                 = node['flavor']
-        # os.image                  = node["box"]
         # os.security_groups        = nodes['security_groups']
-        # os.openstack_auth_url     = "http://192.168.1.5:5000/v2.0/tokens"      # e.g. "#{ENV['OS_AUTH_URL']}/tokens"
-        # os.networks               = nodes["tenant_network"]
-	      # # os.floating_ip_pool	    = nodes["floatingip_pool"]
-	      # os.floating_ip	          = node["floating_ip"]
-
         os.keypair_name           = openstack['key']
         os.username               = openstack['username']
         os.password               = openstack['password']
@@ -102,7 +91,3 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 end
-
-#
-
-
